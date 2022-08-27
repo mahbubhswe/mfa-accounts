@@ -15,11 +15,16 @@ import useSWR from "swr";
 import axios from "axios";
 import { useState } from "react";
 const getPaymentDetails = (url) => axios.get(url).then((res) => res.data);
+const getStudentetails = (url) => axios.get(url).then((res) => res.data);
 export default function StudentPaymentDetails({ studentId }) {
   const [instmn, setInstmn] = useState("1st");
   const { data, error } = useSWR(
     `/api/getPaymentDetails?id=${studentId}&instmn=${instmn}`,
     getPaymentDetails
+  );
+  const { data: studentetails, error: sEr } = useSWR(
+    `/api/getStudentetails?id=${studentId}`,
+    getStudentetails
   );
 
   if (!data) {
@@ -67,7 +72,6 @@ export default function StudentPaymentDetails({ studentId }) {
         }}
         spacing={3}
       >
-         
         <Typography>Semester:</Typography>
         <FormControl size="small" color="secondary">
           <Select
@@ -81,13 +85,9 @@ export default function StudentPaymentDetails({ studentId }) {
             <MenuItem value="4th">4th Semester</MenuItem>
           </Select>
         </FormControl>
-        <Typography>
-          Student ID: {studentId}
-        </Typography>
-      
-        <Typography>
-          Amount: {data.length>0?data[0].amount:0}
-        </Typography>
+        <Typography>Student ID: {studentId}</Typography>
+        <Typography>Name: {studentetails.name}</Typography>
+        <Typography>Amount: {data.length > 0 ? data[0].amount : 0}</Typography>
         <Typography>
           Payment Date:{" "}
           {formateDate(data.length > 0 ? data[0].createdAt : new Date())}
@@ -120,9 +120,7 @@ export default function StudentPaymentDetails({ studentId }) {
             <Typography>
               শিক্ষা সামগ্রী (ক্লাশ ব্যাগ): {item.classBag}
             </Typography>
-            <Typography>
-              শিক্ষা সফর: {item.educationalTour}
-            </Typography>
+            <Typography>শিক্ষা সফর: {item.educationalTour}</Typography>
             <Typography>ক্লোদিং ও বেডিং: {item.crodhingDabing}</Typography>
             <Typography>
               মেরিটাইম বিশ্ববিদ্যালয় ফি: {item.meritimeCharge}
