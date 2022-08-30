@@ -26,7 +26,7 @@ export default function FullScreenDialog() {
   const [selectedInstalment] = useLocalStorage("selectedInstalment");
   const [studentId, setStudentId] = useState(false);
   const router = useRouter();
-  const [paymnet, setPaymnet] = useState({
+  const [payment, setpayment] = useState({
     admissionFee: 0,
     tutionFee: 0,
     diningCharge: 0,
@@ -48,7 +48,7 @@ export default function FullScreenDialog() {
     retuenable: 0,
   });
 
-  const values = Object.values(paymnet);
+  const values = Object.values(payment);
   const totalAmount = values.reduce((accumulator, value) => {
     return accumulator + value;
   }, 0);
@@ -87,25 +87,25 @@ export default function FullScreenDialog() {
         detailsId: studentId,
         instalment: selectInstalment,
         amount: totalAmount,
-        admissionFee: paymnet.admissionFee,
-        tutionFee: paymnet.tutionFee,
-        diningCharge: paymnet.diningCharge,
-        hairCutting: paymnet.hairCutting,
-        cablerOyaserManCharge: paymnet.cablerOyaserManCharge,
-        religiousCharge: paymnet.religiousCharge,
-        newspaperMagazineCharge: paymnet.newspaperMagazineCharge,
-        establishMaintainCharge: paymnet.establishMaintainCharge,
-        supervisionCharge: paymnet.supervisionCharge,
-        gameSportCharge: paymnet.gameSportCharge,
-        yearlyCeremony: paymnet.yearlyCeremony,
-        cadetNightCharge: paymnet.cadetNightCharge,
-        classBag: paymnet.classBag,
-        educationalTour: paymnet.educationalTour,
-        crodhingDabing: paymnet.crodhingDabing,
-        meritimeCharge: paymnet.meritimeCharge,
-        aboutExam: paymnet.aboutExam,
-        passingOut: paymnet.passingOut,
-        retuenable: paymnet.retuenable,
+        admissionFee: payment.admissionFee,
+        tutionFee: payment.tutionFee,
+        diningCharge: payment.diningCharge,
+        hairCutting: payment.hairCutting,
+        cablerOyaserManCharge: payment.cablerOyaserManCharge,
+        religiousCharge: payment.religiousCharge,
+        newspaperMagazineCharge: payment.newspaperMagazineCharge,
+        establishMaintainCharge: payment.establishMaintainCharge,
+        supervisionCharge: payment.supervisionCharge,
+        gameSportCharge: payment.gameSportCharge,
+        yearlyCeremony: payment.yearlyCeremony,
+        cadetNightCharge: payment.cadetNightCharge,
+        classBag: payment.classBag,
+        educationalTour: payment.educationalTour,
+        crodhingDabing: payment.crodhingDabing,
+        meritimeCharge: payment.meritimeCharge,
+        aboutExam: payment.aboutExam,
+        passingOut: payment.passingOut,
+        retuenable: payment.retuenable,
       },
       {
         headers: {
@@ -212,8 +212,8 @@ export default function FullScreenDialog() {
                 color="secondary"
                 fullWidth
                 onChange={(e) =>
-                  setPaymnet({
-                    ...paymnet,
+                  setpayment({
+                    ...payment,
                     admissionFee: Number(e.target.value),
                   })
                 }
@@ -227,7 +227,7 @@ export default function FullScreenDialog() {
                 required
                 color="secondary"
                 onChange={(e) =>
-                  setPaymnet({ ...paymnet, tutionFee: Number(e.target.value) })
+                  setpayment({ ...payment, tutionFee: Number(e.target.value) })
                 }
               />
               <TextField
@@ -251,8 +251,8 @@ export default function FullScreenDialog() {
                 fullWidth
                 color="secondary"
                 onChange={(e) =>
-                  setPaymnet({
-                    ...paymnet,
+                  setpayment({
+                    ...payment,
                     diningCharge: Number(e.target.value),
                   })
                 }
@@ -263,21 +263,6 @@ export default function FullScreenDialog() {
               spacing={1}
             >
               <TextField
-                label="Dining Charge"
-                type="number"
-                placeholder="Dining Charge"
-                size="small"
-                required
-                fullWidth
-                color="secondary"
-                onChange={(e) =>
-                  setPaymnet({
-                    ...paymnet,
-                    diningCharge: Number(e.target.value),
-                  })
-                }
-              />
-              <TextField
                 label="Hair Cutting"
                 type="number"
                 placeholder="Hair Cutting"
@@ -286,12 +271,13 @@ export default function FullScreenDialog() {
                 fullWidth
                 color="secondary"
                 onChange={(e) =>
-                  setPaymnet({
-                    ...paymnet,
+                  setpayment({
+                    ...payment,
                     hairCutting: Number(e.target.value),
                   })
                 }
               />
+             
               <TextField
                 label="Cabler and Oyaser Man Charge"
                 type="number"
@@ -301,8 +287,8 @@ export default function FullScreenDialog() {
                 fullWidth
                 color="secondary"
                 onChange={(e) =>
-                  setPaymnet({
-                    ...paymnet,
+                  setpayment({
+                    ...payment,
                     cablerOyaserManCharge: Number(e.target.value),
                   })
                 }
@@ -331,8 +317,8 @@ export default function FullScreenDialog() {
                 fullWidth
                 color="secondary"
                 onChange={(e) =>
-                  setPaymnet({
-                    ...paymnet,
+                  setpayment({
+                    ...payment,
                     religiousCharge: Number(e.target.value),
                   })
                 }
@@ -346,8 +332,8 @@ export default function FullScreenDialog() {
                 fullWidth
                 color="secondary"
                 onChange={(e) =>
-                  setPaymnet({
-                    ...paymnet,
+                  setpayment({
+                    ...payment,
                     newspaperMagazineCharge: Number(e.target.value),
                   })
                 }
@@ -361,8 +347,8 @@ export default function FullScreenDialog() {
                 fullWidth
                 color="secondary"
                 onChange={(e) =>
-                  setPaymnet({
-                    ...paymnet,
+                  setpayment({
+                    ...payment,
                     establishMaintainCharge: Number(e.target.value),
                   })
                 }
@@ -381,8 +367,8 @@ export default function FullScreenDialog() {
                 fullWidth
                 color="secondary"
                 onChange={(e) =>
-                  setPaymnet({
-                    ...paymnet,
+                  setpayment({
+                    ...payment,
                     supervisionCharge: Number(e.target.value),
                   })
                 }
@@ -406,8 +392,8 @@ export default function FullScreenDialog() {
                 fullWidth
                 color="secondary"
                 onChange={(e) =>
-                  setPaymnet({
-                    ...paymnet,
+                  setpayment({
+                    ...payment,
                     gameSportCharge: Number(e.target.value),
                   })
                 }
@@ -431,8 +417,8 @@ export default function FullScreenDialog() {
                 fullWidth
                 color="secondary"
                 onChange={(e) =>
-                  setPaymnet({
-                    ...paymnet,
+                  setpayment({
+                    ...payment,
                     yearlyCeremony: Number(e.target.value),
                   })
                 }
@@ -461,8 +447,8 @@ export default function FullScreenDialog() {
                 fullWidth
                 color="secondary"
                 onChange={(e) =>
-                  setPaymnet({
-                    ...paymnet,
+                  setpayment({
+                    ...payment,
                     cadetNightCharge: Number(e.target.value),
                   })
                 }
@@ -490,7 +476,7 @@ export default function FullScreenDialog() {
                 fullWidth
                 color="secondary"
                 onChange={(e) =>
-                  setPaymnet({ ...paymnet, classBag: Number(e.target.value) })
+                  setpayment({ ...payment, classBag: Number(e.target.value) })
                 }
               />
               <TextField
@@ -502,8 +488,8 @@ export default function FullScreenDialog() {
                 fullWidth
                 color="secondary"
                 onChange={(e) =>
-                  setPaymnet({
-                    ...paymnet,
+                  setpayment({
+                    ...payment,
                     educationalTour: Number(e.target.value),
                   })
                 }
@@ -522,8 +508,8 @@ export default function FullScreenDialog() {
                 fullWidth
                 color="secondary"
                 onChange={(e) =>
-                  setPaymnet({
-                    ...paymnet,
+                  setpayment({
+                    ...payment,
                     crodhingDabing: Number(e.target.value),
                   })
                 }
@@ -537,8 +523,8 @@ export default function FullScreenDialog() {
                 fullWidth
                 color="secondary"
                 onChange={(e) =>
-                  setPaymnet({
-                    ...paymnet,
+                  setpayment({
+                    ...payment,
                     meritimeCharge: Number(e.target.value),
                   })
                 }
@@ -552,7 +538,7 @@ export default function FullScreenDialog() {
                 fullWidth
                 color="secondary"
                 onChange={(e) =>
-                  setPaymnet({ ...paymnet, aboutExam: Number(e.target.value) })
+                  setpayment({ ...payment, aboutExam: Number(e.target.value) })
                 }
               />
             </Stack>
@@ -583,7 +569,7 @@ export default function FullScreenDialog() {
                 fullWidth
                 color="secondary"
                 onChange={(e) =>
-                  setPaymnet({ ...paymnet, passingOut: Number(e.target.value) })
+                  setpayment({ ...payment, passingOut: Number(e.target.value) })
                 }
               />
               <TextField
@@ -609,7 +595,7 @@ export default function FullScreenDialog() {
                 fullWidth
                 color="secondary"
                 onChange={(e) =>
-                  setPaymnet({ ...paymnet, retuenable: Number(e.target.value) })
+                  setpayment({ ...payment, retuenable: Number(e.target.value) })
                 }
               />
             </Stack>
