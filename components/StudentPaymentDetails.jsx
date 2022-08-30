@@ -15,16 +15,16 @@ import useSWR from "swr";
 import axios from "axios";
 import { useState } from "react";
 const getPaymentDetails = (url) => axios.get(url).then((res) => res.data);
-const getStudentetails = (url) => axios.get(url).then((res) => res.data);
+const getStudentDetails = (url) => axios.get(url).then((res) => res.data);
 export default function StudentPaymentDetails({ studentId }) {
   const [instmn, setInstmn] = useState("1st");
   const { data, error } = useSWR(
     `/api/getPaymentDetails?id=${studentId}&instmn=${instmn}`,
     getPaymentDetails
   );
-  const { data: studentetails, error: sEr } = useSWR(
-    `/api/getStudentetails?id=${studentId}`,
-    getStudentetails
+  const { data: studentDetails, error: sEr } = useSWR(
+    `/api/getStudentDetails?id=${studentId}`,
+    getStudentDetails
   );
 
   if (!data) {
@@ -86,7 +86,7 @@ export default function StudentPaymentDetails({ studentId }) {
           </Select>
         </FormControl>
         <Typography>Student ID: {studentId}</Typography>
-        <Typography>Name: {studentetails.name}</Typography>
+        <Typography>Name: {studentDetails.name?studentDetails.name:null}</Typography>
         <Typography>Amount: {data.length > 0 ? data[0].amount : 0}</Typography>
         <Typography>
           Payment Date:{" "}

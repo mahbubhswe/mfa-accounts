@@ -2,11 +2,13 @@ import {
   Alert,
   Box,
   Button,
+  Container,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Divider,
   FormControl,
   InputLabel,
   MenuItem,
@@ -20,6 +22,7 @@ import {
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
+import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import * as React from "react";
 import { useState } from "react";
 import { useLocalStorage } from "@rehooks/local-storage";
@@ -27,126 +30,73 @@ export default function FullScreenDialog() {
   const [openPaymentInfo, setOpenPaymentInfo] = useState(false);
   const [open, setOpen] = useState(false);
   const [apiRes, setApiRes] = useState(false);
+  const [selectInstalment, setSelectInstalment] = useState();
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [userInfo] = useLocalStorage("userInfo");
-  const [studentId, setStudentId] = useState();
-  const [instalment, setInstalment] = useState();
-  const [amount, setAmount] = useState();
-  function setAdmissionFee() {
-    return instalment == "1st" ? 5000 : 0;
-  }
-  function setReligiousCharge() {
-    if (instalment == "1st" || instalment == "3rd") {
-      return 250;
-    } else {
-      return 0;
-    }
-  }
-  function setStablishAndMaint() {
-    if (instalment == "1st") {
-      return 4000;
-    } else if (
-      instalment == "2nd" ||
-      instalment == "3rd" ||
-      instalment == "4th"
-    ) {
-      return 2000;
-    }
-  }
-  function setMeritimeVrstyFee() {
-    if (instalment == "1st") {
-      return 4000;
-    } else if (
-      instalment == "2nd" ||
-      instalment == "3rd" ||
-      instalment == "4th"
-    ) {
-      return 3000;
-    }
-  }
-  function setCrodingAndBadding() {
-    if (instalment == "1st") {
-      return 20000;
-    } else if (
-      instalment == "2nd" ||
-      instalment == "3rd" ||
-      instalment == "4th"
-    ) {
-      return 10000;
-    }
-  }
-  function setGameSportCharge() {
-    if (instalment == "1st" || instalment == "3rd") {
-      return 500;
-    } else {
-      return 0;
-    }
-  }
-  function setYearlyCeremony() {
-    if (instalment == "1st" || instalment == "3rd") {
-      return 500;
-    } else {
-      return 0;
-    }
-  }
-  function setCadetNightCharge() {
-    if (instalment == "2nd" || instalment == "4th") {
-      return 1000;
-    } else {
-      return 0;
-    }
-  }
-  function setClassBag() {
-    return instalment == "1st" ? 1000 : 0;
-  }
-  function setPassingOut() {
-    return instalment == "2nd" ? 3000 : 0;
-  }
-  function setRetuenable() {
-    return instalment == "4th" ? 5000 : 0;
-  }
-  const makeNewPayment = async (e) => {
-    e.preventDefault();
-    if (amount == 83000) {
-      instalment = "1st";
-    } else if (amount == 66750) {
-      instalment = "2nd";
-    } else if (amount == 64000) {
-      instalment = "3rd";
-    } else if (amount == 68750) {
-      instalment = "4th";
-    } else {
-      setOpenPaymentInfo(true);
-      return;
-    }
+  const [studentId, setStudentId] = useState(false);
+  const [paymnet, setPaymnet] = useState({
+    admissionFee: 0,
+    tutionFee: 0,
+    diningCharge: 0,
+    hairCutting: 0,
+    cablerOyaserManCharge: 0,
+    religiousCharge: 0,
+    newspaperMagazineCharge: 0,
+    establishMaintainCharge: 0,
+    supervisionCharge: 0,
+    gameSportCharge: 0,
+    yearlyCeremony: 0,
+    cadetNightCharge: 0,
+    classBag: 0,
+    educationalTour: 0,
+    crodhingDabing: 0,
+    meritimeCharge: 0,
+    aboutExam: 0,
+    passingOut: 0,
+    retuenable: 0,
+  });
 
+  //calculate total
+  const values = Object.values(paymnet);
+  const totalAmount = values.reduce((accumulator, value) => {
+    return accumulator + value;
+  }, 0);
+
+  //ask for make sure
+  const askForPayment = (e) => {
+    e.preventDefault();
+    setOpenPaymentInfo(true);
+  };
+  //make payment
+  const makeNewPayment = async (e) => {
+    setOpenPaymentInfo(false);
     setOpen(true);
     const { data } = await axios.post(
       `/api/payment?id=${studentId}`,
       {
         studentId: studentId,
         detailsId: studentId,
-        instalment: instalment,
-        amount: amount,
-        admissionFee: setAdmissionFee(),
-        tutionFee: 2100,
-        diningCharge: 36000,
-        hairCutting: 900,
-        cablerOyaserManCharge: 3000,
-        religiousCharge: setReligiousCharge(),
-        newspaperMagazineCharge: 150,
-        establishMaintainCharge: setStablishAndMaint(),
-        supervisionCharge: 1500,
-        gameSportCharge: setGameSportCharge(),
-        yearlyCeremony: setYearlyCeremony(),
-        cadetNightCharge: setCadetNightCharge(),
-        classBag: setClassBag(),
-        educationalTour: 2000,
-        crodhingDabing: setCrodingAndBadding(),
-        meritimeCharge: setMeritimeVrstyFee(),
-        aboutExam: 2100,
-        passingOut: setPassingOut(),
-        retuenable: setRetuenable(),
+        instalment: selectInstalment,
+        amount: totalAmount,
+        admissionFee: paymnet.admissionFee,
+        tutionFee: paymnet.tutionFee,
+        diningCharge: paymnet.diningCharge,
+        hairCutting: paymnet.hairCutting,
+        cablerOyaserManCharge: paymnet.cablerOyaserManCharge,
+        religiousCharge: paymnet.religiousCharge,
+        newspaperMagazineCharge: paymnet.newspaperMagazineCharge,
+        establishMaintainCharge: paymnet.establishMaintainCharge,
+        supervisionCharge: paymnet.supervisionCharge,
+        gameSportCharge: paymnet.gameSportCharge,
+        yearlyCeremony: paymnet.yearlyCeremony,
+        cadetNightCharge: paymnet.cadetNightCharge,
+        classBag: paymnet.classBag,
+        educationalTour: paymnet.educationalTour,
+        crodhingDabing: paymnet.crodhingDabing,
+        meritimeCharge: paymnet.meritimeCharge,
+        aboutExam: paymnet.aboutExam,
+        passingOut: paymnet.passingOut,
+        retuenable: paymnet.retuenable,
       },
       {
         headers: {
@@ -154,10 +104,8 @@ export default function FullScreenDialog() {
         },
       }
     );
-
-    setApiRes(data);
     setOpen(false);
-    setAmount("");
+    setApiRes(data);
     setOpenSnackbar(true);
   };
 
@@ -170,110 +118,502 @@ export default function FullScreenDialog() {
   };
   return (
     <>
-      <Box
-        sx={{
-          height: "100%",
-          display: "grid",
-          placeContent: "center",
-        }}
-      >
-        <Paper variant="outlined">
-          <form onSubmit={makeNewPayment}>
+      <Container>
+        <Paper
+          sx={{ width: "99%", marginX: "auto", padding: "20px", mt: "6px" }}
+          variant="outlined"
+        >
+          <Stack onSubmit={askForPayment} spacing={1} component="form">
+            <FormControl color="secondary">
+              <InputLabel color="secondary">Select Instalment</InputLabel>
+              <Select
+                value={selectInstalment}
+                label="Age"
+                required
+                size="small"
+                onChange={(e) => {
+                  setSelectInstalment(e.target.value);
+                }}
+              >
+                <MenuItem value="1st">1st Instalment</MenuItem>
+                <MenuItem value="2nd">2nd Instalment</MenuItem>
+                <MenuItem value="3rd">3rd Instalment</MenuItem>
+                <MenuItem value="4th">4th Instalment</MenuItem>
+              </Select>
+            </FormControl>
+            <TextField
+              label="Student ID"
+              type="text"
+              placeholder="Type student ID"
+              size="small"
+              required
+              color="secondary"
+              onChange={(e) => setStudentId(e.target.value)}
+            />
             <Stack
-              spacing={2}
-              sx={{ padding: "20px", border: "1px solid #ccc" }}
+              direction={{ xs: "column", sm: "row", md: "row" }}
+              spacing={1}
             >
-              <Typography
-                flexGrow={1}
-                align="center"
-                variant="bold"
-                component="h2"
-              >
-                Enter Payment Information
-              </Typography>
               <TextField
-                value={studentId}
-                color="secondary"
+                sx={{
+                  display:
+                    selectInstalment == "2nd" ||
+                    (selectInstalment == "3rd") | (selectInstalment == "4th")
+                      ? "none"
+                      : "block",
+                }}
+                label="Admission Fee"
+                type="number"
+                placeholder="Admission Fee"
                 size="small"
-                label="Student ID"
-                onChange={(e) => setStudentId(e.target.value)}
+                required={
+                  selectInstalment == "2nd" ||
+                  (selectInstalment == "3rd") | (selectInstalment == "4th")
+                    ? false
+                    : true
+                }
+                color="secondary"
+                fullWidth
+                onChange={(e) =>
+                  setPaymnet({
+                    ...paymnet,
+                    admissionFee: Number(e.target.value),
+                  })
+                }
               />
-              <FormControl fullWidth>
-                <InputLabel>Select Instalment</InputLabel>
-                <Select
-                  size="small"
-                  value={instalment}
-                  required
-                  color="secondary"
-                  onChange={(e) => setInstalment(e.target.value)}
-                >
-                  <MenuItem value={"1st"} selected>
-                    1st Instalment
-                  </MenuItem>
-                  <MenuItem value={"2nd"}>2nd Instalment</MenuItem>
-                  <MenuItem value={"3rd"}>3rd Instalment</MenuItem>
-                  <MenuItem value={"4th"}>4th Instalment</MenuItem>
-                </Select>
-              </FormControl>
               <TextField
-                label="Amount"
-                type={"number"}
-                color="secondary"
+                label="Tution Fee"
+                type="number"
+                placeholder="Tution Fee"
                 size="small"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
+                fullWidth
+                required
+                color="secondary"
+                onChange={(e) =>
+                  setPaymnet({ ...paymnet, tutionFee: Number(e.target.value) })
+                }
               />
-
-              <Button
-                disabled={amount ? false : true}
+              <TextField
                 sx={{
-                  background: "#001E3C",
-                  color: "white",
-                  "&:hover": {
-                    background: "#0074CC",
-                  },
+                  display:
+                    selectInstalment == "2nd" ||
+                    (selectInstalment == "3rd") | (selectInstalment == "4th")
+                      ? "none"
+                      : "block",
                 }}
-                type="submit"
-              >
-                Pay Now
-              </Button>
-
-              <Backdrop
-                sx={{
-                  color: "#fff",
-                  zIndex: (theme) => theme.zIndex.drawer + 1,
-                }}
-                open={open}
-              >
-                <CircularProgress color="inherit" />
-              </Backdrop>
+                label="Dining Charge"
+                type="number"
+                placeholder="Dining Charge"
+                size="small"
+                required={
+                  selectInstalment == "2nd" ||
+                  (selectInstalment == "3rd") | (selectInstalment == "4th")
+                    ? false
+                    : true
+                }
+                fullWidth
+                color="secondary"
+                onChange={(e) =>
+                  setPaymnet({
+                    ...paymnet,
+                    diningCharge: Number(e.target.value),
+                  })
+                }
+              />
             </Stack>
-          </form>
+            <Stack
+              direction={{ xs: "column", sm: "row", md: "row" }}
+              spacing={1}
+            >
+              <TextField
+                label="Dining Charge"
+                type="number"
+                placeholder="Dining Charge"
+                size="small"
+                required
+                fullWidth
+                color="secondary"
+                onChange={(e) =>
+                  setPaymnet({
+                    ...paymnet,
+                    diningCharge: Number(e.target.value),
+                  })
+                }
+              />
+              <TextField
+                label="Hair Cutting"
+                type="number"
+                placeholder="Hair Cutting"
+                size="small"
+                required
+                fullWidth
+                color="secondary"
+                onChange={(e) =>
+                  setPaymnet({
+                    ...paymnet,
+                    hairCutting: Number(e.target.value),
+                  })
+                }
+              />
+              <TextField
+                label="Cabler and Oyaser Man Charge"
+                type="number"
+                placeholder="Cabler and Oyaser Man Charge"
+                size="small"
+                required
+                fullWidth
+                color="secondary"
+                onChange={(e) =>
+                  setPaymnet({
+                    ...paymnet,
+                    cablerOyaserManCharge: Number(e.target.value),
+                  })
+                }
+              />
+            </Stack>
+            <Stack
+              direction={{ xs: "column", sm: "row", md: "row" }}
+              spacing={1}
+            >
+              <TextField
+                sx={{
+                  display:
+                    selectInstalment == "2nd" || selectInstalment == "4th"
+                      ? "none"
+                      : "block",
+                }}
+                label="Religious Charge"
+                type="number"
+                placeholder="Religious Charge"
+                size="small"
+                required={
+                  selectInstalment == "2nd" || selectInstalment == "4th"
+                    ? false
+                    : true
+                }
+                fullWidth
+                color="secondary"
+                onChange={(e) =>
+                  setPaymnet({
+                    ...paymnet,
+                    religiousCharge: Number(e.target.value),
+                  })
+                }
+              />
+              <TextField
+                label="Newspaper and Magazine Charge"
+                type="number"
+                placeholder="Newspaper and Magazine Charge"
+                size="small"
+                required
+                fullWidth
+                color="secondary"
+                onChange={(e) =>
+                  setPaymnet({
+                    ...paymnet,
+                    newspaperMagazineCharge: Number(e.target.value),
+                  })
+                }
+              />
+              <TextField
+                label="Establish and Maintain Charge"
+                type="number"
+                placeholder="Establish and Maintain Charge"
+                size="small"
+                required
+                fullWidth
+                color="secondary"
+                onChange={(e) =>
+                  setPaymnet({
+                    ...paymnet,
+                    establishMaintainCharge: Number(e.target.value),
+                  })
+                }
+              />
+            </Stack>
+            <Stack
+              direction={{ xs: "column", sm: "row", md: "row" }}
+              spacing={1}
+            >
+              <TextField
+                label="Supervision Charge"
+                type="number"
+                placeholder="Supervision Charge"
+                size="small"
+                required
+                fullWidth
+                color="secondary"
+                onChange={(e) =>
+                  setPaymnet({
+                    ...paymnet,
+                    supervisionCharge: Number(e.target.value),
+                  })
+                }
+              />
+              <TextField
+                sx={{
+                  display:
+                    selectInstalment == "2nd" || selectInstalment == "4th"
+                      ? "none"
+                      : "block",
+                }}
+                label="Games and Sports Charge"
+                type="number"
+                placeholder="Games and Sports Charge"
+                size="small"
+                required={
+                  selectInstalment == "2nd" || selectInstalment == "4th"
+                    ? false
+                    : true
+                }
+                fullWidth
+                color="secondary"
+                onChange={(e) =>
+                  setPaymnet({
+                    ...paymnet,
+                    gameSportCharge: Number(e.target.value),
+                  })
+                }
+              />
+              <TextField
+                sx={{
+                  display:
+                    selectInstalment == "2nd" || selectInstalment == "4th"
+                      ? "none"
+                      : "block",
+                }}
+                label="Yearly Ceremony Charge"
+                type="number"
+                placeholder="Yearly Ceremony Charge"
+                size="small"
+                required={  selectInstalment == "2nd" || selectInstalment == "4th"
+                ? false:true}
+                fullWidth
+                color="secondary"
+                onChange={(e) =>
+                  setPaymnet({
+                    ...paymnet,
+                    yearlyCeremony: Number(e.target.value),
+                  })
+                }
+              />
+            </Stack>
+            <Stack
+              direction={{ xs: "column", sm: "row", md: "row" }}
+              spacing={1}
+            >
+              <TextField
+                sx={{
+                  display:
+                    selectInstalment == "1st" || selectInstalment == "3rd"
+                      ? "none"
+                      : "block",
+                }}
+                label="Cadet Night Charge"
+                type="number"
+                placeholder="Cadet Night Charge"
+                size="small"
+                required={  selectInstalment == "1st" || selectInstalment == "3rd"
+                ? false:true}
+                fullWidth
+                color="secondary"
+                onChange={(e) =>
+                  setPaymnet({
+                    ...paymnet,
+                    cadetNightCharge: Number(e.target.value),
+                  })
+                }
+              />
+              <TextField
+                sx={{
+                  display:
+                    selectInstalment == "2nd" ||
+                    selectInstalment == "3rd" ||
+                    selectInstalment == "4th"
+                      ? "none"
+                      : "block",
+                }}
+                label="Class Bag"
+                type="number"
+                placeholder="Class Bag"
+                size="small"
+                required={  selectInstalment == "2nd" ||
+                selectInstalment == "3rd" ||
+                selectInstalment == "4th"
+                  ? false:true}
+                fullWidth
+                color="secondary"
+                onChange={(e) =>
+                  setPaymnet({ ...paymnet, classBag: Number(e.target.value) })
+                }
+              />
+              <TextField
+                label="Educational Tour"
+                type="number"
+                placeholder="Educational Tour"
+                size="small"
+                required
+                fullWidth
+                color="secondary"
+                onChange={(e) =>
+                  setPaymnet({
+                    ...paymnet,
+                    educationalTour: Number(e.target.value),
+                  })
+                }
+              />
+            </Stack>
+            <Stack
+              direction={{ xs: "column", sm: "row", md: "row" }}
+              spacing={1}
+            >
+              <TextField
+                label="Crodhing Dabing Charge"
+                type="number"
+                placeholder="Crodhing Dabing Charge"
+                size="small"
+                required
+                fullWidth
+                color="secondary"
+                onChange={(e) =>
+                  setPaymnet({
+                    ...paymnet,
+                    crodhingDabing: Number(e.target.value),
+                  })
+                }
+              />
+              <TextField
+                label="Maritime Fee"
+                type="number"
+                placeholder="Maritime Fee"
+                size="small"
+                required
+                fullWidth
+                color="secondary"
+                onChange={(e) =>
+                  setPaymnet({
+                    ...paymnet,
+                    meritimeCharge: Number(e.target.value),
+                  })
+                }
+              />
+              <TextField
+                label="Exam Fee"
+                type="number"
+                placeholder="Exam Fee"
+                size="small"
+                required
+                fullWidth
+                color="secondary"
+                onChange={(e) =>
+                  setPaymnet({ ...paymnet, aboutExam: Number(e.target.value) })
+                }
+              />
+            </Stack>
+            <Stack
+              direction={{ xs: "column", sm: "row", md: "row" }}
+              spacing={1}
+            >
+              <TextField
+                sx={{
+                  display:
+                    selectInstalment == "1st" ||
+                    selectInstalment == "3rd" ||
+                    selectInstalment == "4th"
+                      ? "none"
+                      : "block",
+                }}
+                label="Passing Out Fee"
+                type="number"
+                placeholder="Passing Out Fee"
+                size="small"
+                required={  selectInstalment == "1st" ||
+                selectInstalment == "3rd" ||
+                selectInstalment == "4th"
+                  ?false:true}
+                fullWidth
+                color="secondary"
+                onChange={(e) =>
+                  setPaymnet({ ...paymnet, passingOut: Number(e.target.value) })
+                }
+              />
+              <TextField
+                sx={{
+                  display:
+                    selectInstalment == "1st" ||
+                    selectInstalment == "2nd" ||
+                    selectInstalment == "3rd"
+                      ? "none"
+                      : "block",
+                }}
+                label="Kashanmani"
+                type="number"
+                placeholder="Kashanmani(Retuenable)"
+                size="small"
+                required={  selectInstalment == "1st" ||
+                selectInstalment == "2nd" ||
+                selectInstalment == "3rd"
+                  ? false:true}
+                fullWidth
+                color="secondary"
+                onChange={(e) =>
+                  setPaymnet({ ...paymnet, retuenable: Number(e.target.value) })
+                }
+              />
+            </Stack>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <Typography>
+                <span style={{ color: "green" }}>Total Amount: </span>
+                {totalAmount ? totalAmount : 0}
+              </Typography>
+              <Button
+                type="submit"
+                size="small"
+                color="secondary"
+                variant="contained"
+              >
+                Payment
+              </Button>
+            </div>
+          </Stack>
         </Paper>
-      </Box>
+      </Container>
 
-      <Dialog open={openPaymentInfo} sx={{ border: "1px solid #ccc" }}>
-        <DialogTitle>{"Please, Check Payment Requirement"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText sx={{ color: "#0A1929" }}>
-            Sorry, only payment amount is allowed for 83000, 66750, 64000 and
-            68750 tk
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            sx={{
-              background: "#0057B7",
-              color: "#ffffff",
-              "&:hover": {
-                background: "#007FFF",
-              },
-            }}
-            onClick={() => setOpenPaymentInfo(false)}
-          >
-            Ok
-          </Button>
-        </DialogActions>
+      <Dialog open={openPaymentInfo}>
+        <Paper variant="outlined" sx={{ border: "1px solid #ccc" }} >
+          <DialogTitle>
+            <Typography align="center">
+              <QuestionMarkIcon sx={{ fontSize: "50px", color: "#007FFF" }} />
+            </Typography>
+          </DialogTitle>
+          <DialogTitle>
+            <Divider sx={{ color: "#1A2027" }}>
+              Do you want to process this transaction?
+            </Divider>
+          </DialogTitle>
+
+          <DialogContent>
+            <DialogContentText sx={{ color: "#0A1929" }}>
+              Make sure payment details is correct before process this transaction.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              color="error"
+              variant="outlined"
+              onClick={() => setOpenPaymentInfo(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              color="secondary"
+              variant="outlined"
+              onClick={makeNewPayment}
+            >
+              Confirm
+            </Button>
+          </DialogActions>
+        </Paper>
       </Dialog>
 
       <Snackbar
@@ -299,6 +639,9 @@ export default function FullScreenDialog() {
           {apiRes}
         </Alert>
       </Snackbar>
+      <Backdrop open={open}>
+        <CircularProgress color="secondary"></CircularProgress>
+      </Backdrop>
     </>
   );
 }
