@@ -121,13 +121,17 @@ export default function FullScreenDialog() {
         "success",
         "Ok"
       );
-    } else {
+    } else if (
+      data == "Student ID not exist.Please add before make a payment"
+    ) {
       alertOnTaskDone(
         "Transaction failed!",
         "Student ID not exist. Please add before make a payment",
-        "error",
+        "info",
         "Ok"
       );
+    } else {
+      alertOnTaskDone("Transaction failed!", data, "warning", "Ok");
     }
   };
 
@@ -147,7 +151,7 @@ export default function FullScreenDialog() {
   }
   return (
     <div style={{ background: "#F4F4F4", padding: "20px 0px" }}>
-      <Container sx={{borderRadius:"25px"}}>
+      <Container sx={{ borderRadius: "25px" }}>
         <Paper
           sx={{ width: "99%", marginX: "auto", padding: "20px", mt: "6px" }}
           variant="none"
@@ -168,7 +172,6 @@ export default function FullScreenDialog() {
               <Select
                 value={selectInstalment}
                 label="Select Instalment"
-                
                 size="small"
                 onChange={selectHandler}
               >
@@ -277,7 +280,7 @@ export default function FullScreenDialog() {
                   })
                 }
               />
-             
+
               <TextField
                 label="Cabler and Oyaser Man Charge"
                 type="number"

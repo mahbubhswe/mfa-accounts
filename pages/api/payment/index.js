@@ -8,6 +8,15 @@ handler.use(isAuth);
 handler.post(async (req, res, next) => {
   try {
     await connectMongo();
+    const check = await Payment.findOne({
+      studentId: req.query.id,
+      instalment: req.body.instalment,
+    });
+    if (check) {
+      res.send(
+        `Student ID ${req.query.id} already made payment for ${check.instalment} instalment`
+      );
+    }
     const exist = await Student.findOne({ studentID: req.query.id });
     if (exist) {
       const newPayment = new Payment({
