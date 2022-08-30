@@ -222,7 +222,7 @@ function Navbar() {
               sx={{ background: "#ffffff" }}
               variant="outlined"
               startIcon={<PaymentIcon />}
-              onClick={() => handleClickOpen()}
+              onClick={() => router.push("/payment-system")}
             >
               Payment
             </Button>
