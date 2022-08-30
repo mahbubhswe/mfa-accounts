@@ -21,7 +21,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 export default function FullScreenDialog() {
   const [open, setOpen] = useState(false);
-  const [selectInstalment, setSelectInstalment] = useState("select");
+  const [selectInstalment, setSelectInstalment] = useState("1st");
   const [userInfo] = useLocalStorage("userInfo");
   const [selectedInstalment] = useLocalStorage("selectedInstalment");
   const [studentId, setStudentId] = useState(false);

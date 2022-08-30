@@ -86,7 +86,7 @@ export default function StudentPaymentDetails({ studentId }) {
           </Select>
         </FormControl>
         <Typography>Student ID: {studentId}</Typography>
-        <Typography>Name: {studentDetails.name?studentDetails.name:null}</Typography>
+        <Typography>Name: {studentDetails?studentDetails.name?studentDetails.name:null:null}</Typography>
         <Typography>Amount: {data.length > 0 ? data[0].amount : 0}</Typography>
         <Typography>
           Payment Date:{" "}
