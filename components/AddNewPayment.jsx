@@ -1,20 +1,11 @@
 import {
-  Alert,
-  Box,
   Button,
   Container,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Divider,
   FormControl,
   InputLabel,
   MenuItem,
   Paper,
   Select,
-  Snackbar,
   Stack,
   TextField,
   Typography,
@@ -22,18 +13,19 @@ import {
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
-import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import * as React from "react";
 import { useState } from "react";
-import { useLocalStorage } from "@rehooks/local-storage";
+import { useLocalStorage, writeStorage } from "@rehooks/local-storage";
+import Swal from "sweetalert2";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 export default function FullScreenDialog() {
-  const [openPaymentInfo, setOpenPaymentInfo] = useState(false);
   const [open, setOpen] = useState(false);
-  const [apiRes, setApiRes] = useState(false);
-  const [selectInstalment, setSelectInstalment] = useState();
-  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [selectInstalment, setSelectInstalment] = useState("select");
   const [userInfo] = useLocalStorage("userInfo");
+  const [selectedInstalment] = useLocalStorage("selectedInstalment");
   const [studentId, setStudentId] = useState(false);
+  const router = useRouter();
   const [paymnet, setPaymnet] = useState({
     admissionFee: 0,
     tutionFee: 0,
@@ -56,20 +48,37 @@ export default function FullScreenDialog() {
     retuenable: 0,
   });
 
-  //calculate total
   const values = Object.values(paymnet);
   const totalAmount = values.reduce((accumulator, value) => {
     return accumulator + value;
   }, 0);
-
+  useEffect(() => {
+    setSelectInstalment(selectedInstalment);
+  });
+  const selectHandler = (e) => {
+    const inst = e.target.value;
+    writeStorage("selectedInstalment", inst);
+    router.reload(window.location.pathname);
+  };
   //ask for make sure
   const askForPayment = (e) => {
     e.preventDefault();
-    setOpenPaymentInfo(true);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to process this transaction?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.value) {
+        makeNewPayment();
+      }
+    });
   };
   //make payment
   const makeNewPayment = async (e) => {
-    setOpenPaymentInfo(false);
     setOpen(true);
     const { data } = await axios.post(
       `/api/payment?id=${studentId}`,
@@ -105,35 +114,63 @@ export default function FullScreenDialog() {
       }
     );
     setOpen(false);
-    setApiRes(data);
-    setOpenSnackbar(true);
-  };
-
-  const classSnackbar = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
+    if (data == "Payment Added successfully") {
+      alertOnTaskDone(
+        "Transaction success",
+        "Transaction has been processed successfully!",
+        "success",
+        "Ok"
+      );
+    } else {
+      alertOnTaskDone(
+        "Transaction failed!",
+        "Student ID not exist. Please add before make a payment",
+        "error",
+        "Ok"
+      );
     }
-
-    setOpenSnackbar(false);
   };
+
+  //set alert information
+  function alertOnTaskDone(title, text, icon, confirmButtonText) {
+    Swal.fire({
+      title: title,
+      text: text,
+      icon: icon,
+      confirmButtonColor: "#3085d6",
+      confirmButtonText: confirmButtonText,
+    }).then((result) => {
+      if (result.value) {
+        router.reload(window.location.pathname);
+      }
+    });
+  }
   return (
-    <>
-      <Container>
+    <div style={{ background: "#F4F4F4", padding: "20px 0px" }}>
+      <Container sx={{borderRadius:"25px"}}>
         <Paper
           sx={{ width: "99%", marginX: "auto", padding: "20px", mt: "6px" }}
-          variant="outlined"
+          variant="none"
         >
+          <Typography
+            variant="bold"
+            component="h1"
+            align="center"
+            sx={{ color: "gray" }}
+          >
+            Payment System
+          </Typography>
           <Stack onSubmit={askForPayment} spacing={1} component="form">
             <FormControl color="secondary">
-              <InputLabel color="secondary">Select Instalment</InputLabel>
+              <InputLabel color="secondary">
+                {selectInstalment + " Instalment"}
+              </InputLabel>
               <Select
                 value={selectInstalment}
-                label="Age"
-                required
+                label="Select Instalment"
+                
                 size="small"
-                onChange={(e) => {
-                  setSelectInstalment(e.target.value);
-                }}
+                onChange={selectHandler}
               >
                 <MenuItem value="1st">1st Instalment</MenuItem>
                 <MenuItem value="2nd">2nd Instalment</MenuItem>
@@ -386,8 +423,11 @@ export default function FullScreenDialog() {
                 type="number"
                 placeholder="Yearly Ceremony Charge"
                 size="small"
-                required={  selectInstalment == "2nd" || selectInstalment == "4th"
-                ? false:true}
+                required={
+                  selectInstalment == "2nd" || selectInstalment == "4th"
+                    ? false
+                    : true
+                }
                 fullWidth
                 color="secondary"
                 onChange={(e) =>
@@ -413,8 +453,11 @@ export default function FullScreenDialog() {
                 type="number"
                 placeholder="Cadet Night Charge"
                 size="small"
-                required={  selectInstalment == "1st" || selectInstalment == "3rd"
-                ? false:true}
+                required={
+                  selectInstalment == "1st" || selectInstalment == "3rd"
+                    ? false
+                    : true
+                }
                 fullWidth
                 color="secondary"
                 onChange={(e) =>
@@ -437,10 +480,13 @@ export default function FullScreenDialog() {
                 type="number"
                 placeholder="Class Bag"
                 size="small"
-                required={  selectInstalment == "2nd" ||
-                selectInstalment == "3rd" ||
-                selectInstalment == "4th"
-                  ? false:true}
+                required={
+                  selectInstalment == "2nd" ||
+                  selectInstalment == "3rd" ||
+                  selectInstalment == "4th"
+                    ? false
+                    : true
+                }
                 fullWidth
                 color="secondary"
                 onChange={(e) =>
@@ -527,10 +573,13 @@ export default function FullScreenDialog() {
                 type="number"
                 placeholder="Passing Out Fee"
                 size="small"
-                required={  selectInstalment == "1st" ||
-                selectInstalment == "3rd" ||
-                selectInstalment == "4th"
-                  ?false:true}
+                required={
+                  selectInstalment == "1st" ||
+                  selectInstalment == "3rd" ||
+                  selectInstalment == "4th"
+                    ? false
+                    : true
+                }
                 fullWidth
                 color="secondary"
                 onChange={(e) =>
@@ -550,10 +599,13 @@ export default function FullScreenDialog() {
                 type="number"
                 placeholder="Kashanmani(Retuenable)"
                 size="small"
-                required={  selectInstalment == "1st" ||
-                selectInstalment == "2nd" ||
-                selectInstalment == "3rd"
-                  ? false:true}
+                required={
+                  selectInstalment == "1st" ||
+                  selectInstalment == "2nd" ||
+                  selectInstalment == "3rd"
+                    ? false
+                    : true
+                }
                 fullWidth
                 color="secondary"
                 onChange={(e) =>
@@ -579,69 +631,9 @@ export default function FullScreenDialog() {
         </Paper>
       </Container>
 
-      <Dialog open={openPaymentInfo}>
-        <Paper variant="outlined" sx={{ border: "1px solid #ccc" }} >
-          <DialogTitle>
-            <Typography align="center">
-              <QuestionMarkIcon sx={{ fontSize: "50px", color: "#007FFF" }} />
-            </Typography>
-          </DialogTitle>
-          <DialogTitle>
-            <Divider sx={{ color: "#1A2027" }}>
-              Do you want to process this transaction?
-            </Divider>
-          </DialogTitle>
-
-          <DialogContent>
-            <DialogContentText sx={{ color: "#0A1929" }}>
-              Make sure payment details is correct before process this transaction.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              color="error"
-              variant="outlined"
-              onClick={() => setOpenPaymentInfo(false)}
-            >
-              Cancel
-            </Button>
-            <Button
-              color="secondary"
-              variant="outlined"
-              onClick={makeNewPayment}
-            >
-              Confirm
-            </Button>
-          </DialogActions>
-        </Paper>
-      </Dialog>
-
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={5000}
-        onClose={classSnackbar}
-        message={apiRes}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
-        <Alert
-          severity={
-            apiRes == `Student ID not exist.Please add before make a payment`
-              ? "info"
-              : "success"
-          }
-          sx={{
-            width: "100%",
-            color: "green",
-            paddingY: "20px",
-            border: "1px solid #ccc",
-          }}
-        >
-          {apiRes}
-        </Alert>
-      </Snackbar>
       <Backdrop open={open}>
         <CircularProgress color="secondary"></CircularProgress>
       </Backdrop>
-    </>
+    </div>
   );
 }

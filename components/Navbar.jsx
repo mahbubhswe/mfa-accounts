@@ -2,7 +2,6 @@ import {
   Alert,
   AppBar,
   Button,
-  Dialog,
   Drawer,
   IconButton,
   Slide,
@@ -16,7 +15,6 @@ import HomeIcon from "@mui/icons-material/Home";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useRouter } from "next/router";
 import PaymentIcon from "@mui/icons-material/Payment";
-import AddNewPayment from "./AddNewPayment";
 import dynamic from "next/dynamic";
 import TransitionPage from "./../components/Transaction";
 import CloseIcon from "@mui/icons-material/Close";
@@ -33,7 +31,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const getNotification = (url) => axios.get(url).then((res) => res.data);
 function Navbar() {
   const [show, setShow] = useState(false);
-  const [open, setOpen] = useState(false);
   const [userInfo] = useLocalStorage("userInfo");
   const router = useRouter();
   const { dispatch } = useContext(contextStore);
@@ -42,14 +39,7 @@ function Navbar() {
     getNotification
   );
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  console.log(data);
-  const handleClose = () => {
-    setOpen(false);
-    router.reload(window.location.pathname);
-  };
+  
 
   //logout
   const userLogOut = () => {
@@ -179,7 +169,7 @@ function Navbar() {
               sx={{ background: "#ffffff" }}
               variant="outlined"
               startIcon={<PaymentIcon />}
-              onClick={() => handleClickOpen()}
+              onClick={() => router.push("/payment-system")}
             >
               Payment
             </Button>
@@ -211,34 +201,7 @@ function Navbar() {
         </Toolbar>
       </AppBar>
 
-      <Dialog
-        fullScreen
-        open={open}
-        onClose={handleClose}
-        TransitionComponent={Transition}
-      >
-        <AppBar sx={{ position: "relative", background: "#0D1013" }}>
-          <Toolbar>
-            <Typography
-              sx={{ ml: 2, flex: 1 }}
-              variant="h6"
-              component="div"
-              align="center"
-            >
-              MFA Accounts
-            </Typography>
-            <IconButton
-              edge="start"
-              color="inherit"
-              onClick={handleClose}
-              aria-label="close"
-            >
-              <CloseIcon />
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-        <AddNewPayment />
-      </Dialog>
+      
       <Drawer open={show} onClose={() => setShow(false)}>
         <Stack sx={{ padding: "20px", width: "100vw" }} spacing={1}>
           <Button
