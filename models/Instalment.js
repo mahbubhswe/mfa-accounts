@@ -1,13 +1,5 @@
 import mongoose from "mongoose";
-const paymentSchema = new mongoose.Schema({
-  studentId: {
-    type: String,
-    required: true,
-  },
-  detailsId: {
-    type: String,
-    required: true,
-  },
+const instalmentSchema = new mongoose.Schema({
   instalment: {
     type: String,
     required: true,
@@ -101,7 +93,7 @@ const paymentSchema = new mongoose.Schema({
   },
   createdAt: { type: Date, default: Date.now },
 });
-const Payment =
-  mongoose.models.Payment || mongoose.model("Payment", paymentSchema);
+const Instalment =
+  mongoose.models.Instalment || mongoose.model("Instalment", instalmentSchema);
 
-export default Payment;
+export default Instalment;

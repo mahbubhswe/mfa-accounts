@@ -75,22 +75,13 @@ export default function WithdrawForm() {
 
   return (
     <>
-      <Container
-        sx={{
-          paddingX: { xs: "0px", sm: "5px", md: "300px" },
-          marginTop: "40px",
-        }}
-      >
-        <form onSubmit={handleSubmit}>
+      
           <Stack
-            spacing={2}
-            px={5}
-            pb={3}
-            sx={{
-              border: "1px solid #ccc",
-              padding: "30px",
-              borderRadius: "4px",
-            }}
+           component="form"
+           onSubmit={handleSubmit}
+           px={5}
+             pb={3}
+               spacing={2}
           >
             <Typography
               variant="bold"
@@ -152,8 +143,7 @@ export default function WithdrawForm() {
               Next
             </Button>
           </Stack>
-        </form>
-      </Container>
+       
       <Dialog open={show}>
         <Paper variant="outlined" sx={{ border: "1px solid #ccc" }}>
           <DialogTitle>

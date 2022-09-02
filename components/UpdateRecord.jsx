@@ -21,6 +21,7 @@ import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import useLocalStorage from "@rehooks/local-storage";
 import axios from "axios";
+import Router from "next/router";
 import * as React from "react";
 import { useState } from "react";
 export default function UpdateRecord({ data }) {
@@ -45,6 +46,7 @@ export default function UpdateRecord({ data }) {
     cadetNightCharge: data.cadetNightCharge,
     classBag: data.classBag,
     educationalTour: data.educationalTour,
+    abroadEducationalTours: data.abroadEducationalTours,
     crodhingDabing: data.crodhingDabing,
     meritimeCharge: data.meritimeCharge,
     aboutExam: data.aboutExam,
@@ -87,6 +89,7 @@ export default function UpdateRecord({ data }) {
         cadetNightCharge: payment.cadetNightCharge,
         classBag: payment.classBag,
         educationalTour: payment.educationalTour,
+        abroadEducationalTours:payment.abroadEducationalTours,
         crodhingDabing: payment.crodhingDabing,
         meritimeCharge: payment.meritimeCharge,
         aboutExam: payment.aboutExam,
@@ -109,8 +112,8 @@ export default function UpdateRecord({ data }) {
     if (reason === "clickaway") {
       return;
     }
-
     setOpenSnackbar(false);
+    Router.reload()
   };
   return (
     <>
@@ -161,24 +164,12 @@ export default function UpdateRecord({ data }) {
                 spacing={1}
               >
                 <TextField
-                  sx={{
-                    display:
-                      selectInstalment == "2nd" ||
-                      (selectInstalment == "3rd") | (selectInstalment == "4th")
-                        ? "none"
-                        : "block",
-                  }}
                   label="Admission Fee"
                   type="number"
                   placeholder="Admission Fee"
                   size="small"
                   value={payment.admissionFee}
-                  required={
-                    selectInstalment == "2nd" ||
-                    (selectInstalment == "3rd") | (selectInstalment == "4th")
-                      ? false
-                      : true
-                  }
+                  required
                   color="secondary"
                   fullWidth
                   onChange={(e) =>
@@ -205,24 +196,13 @@ export default function UpdateRecord({ data }) {
                   }
                 />
                 <TextField
-                  sx={{
-                    display:
-                      selectInstalment == "2nd" ||
-                      (selectInstalment == "3rd") | (selectInstalment == "4th")
-                        ? "none"
-                        : "block",
-                  }}
+                 
                   label="Dining Charge"
                   type="number"
                   placeholder="Dining Charge"
                   size="small"
                   value={payment.diningCharge}
-                  required={
-                    selectInstalment == "2nd" ||
-                    (selectInstalment == "3rd") | (selectInstalment == "4th")
-                      ? false
-                      : true
-                  }
+                  required
                   fullWidth
                   color="secondary"
                   onChange={(e) =>
@@ -269,37 +249,29 @@ export default function UpdateRecord({ data }) {
                     })
                   }
                 />
+                      <TextField
+                 
+                 label="Religious Charge"
+                 type="number"
+                 placeholder="Religious Charge"
+                 size="small"
+                 value={payment.religiousCharge}
+                 required
+                 fullWidth
+                 color="secondary"
+                 onChange={(e) =>
+                   setpayment({
+                     ...payment,
+                     religiousCharge: Number(e.target.value),
+                   })
+                 }
+               />
               </Stack>
               <Stack
                 direction={{ xs: "column", sm: "row", md: "row" }}
                 spacing={1}
               >
-                <TextField
-                  sx={{
-                    display:
-                      selectInstalment == "2nd" || selectInstalment == "4th"
-                        ? "none"
-                        : "block",
-                  }}
-                  label="Religious Charge"
-                  type="number"
-                  placeholder="Religious Charge"
-                  size="small"
-                  value={payment.religiousCharge}
-                  required={
-                    selectInstalment == "2nd" || selectInstalment == "4th"
-                      ? false
-                      : true
-                  }
-                  fullWidth
-                  color="secondary"
-                  onChange={(e) =>
-                    setpayment({
-                      ...payment,
-                      religiousCharge: Number(e.target.value),
-                    })
-                  }
-                />
+          
                 <TextField
                   label="Newspaper and Magazine Charge"
                   type="number"
@@ -332,6 +304,22 @@ export default function UpdateRecord({ data }) {
                     })
                   }
                 />
+                           <TextField
+                  label="Abroad Educational Tour"
+                  type="number"
+                  placeholder="Abroad Educational Tour"
+                  size="small"
+                  value={payment.abroadEducationalTours}
+                  required
+                  fullWidth
+                  color="secondary"
+                  onChange={(e) =>
+                    setpayment({
+                      ...payment,
+                      abroadEducationalTours: Number(e.target.value),
+                    })
+                  }
+                />
               </Stack>
               <Stack
                 direction={{ xs: "column", sm: "row", md: "row" }}
@@ -354,22 +342,13 @@ export default function UpdateRecord({ data }) {
                   }
                 />
                 <TextField
-                  sx={{
-                    display:
-                      selectInstalment == "2nd" || selectInstalment == "4th"
-                        ? "none"
-                        : "block",
-                  }}
+                  
                   label="Games and Sports Charge"
                   type="number"
                   placeholder="Games and Sports Charge"
                   size="small"
                   value={payment.gameSportCharge}
-                  required={
-                    selectInstalment == "2nd" || selectInstalment == "4th"
-                      ? false
-                      : true
-                  }
+                  required
                   fullWidth
                   color="secondary"
                   onChange={(e) =>
@@ -380,21 +359,12 @@ export default function UpdateRecord({ data }) {
                   }
                 />
                 <TextField
-                  sx={{
-                    display:
-                      selectInstalment == "2nd" || selectInstalment == "4th"
-                        ? "none"
-                        : "block",
-                  }}
+                 
                   label="Yearly Ceremony Charge"
                   type="number"
                   placeholder="Yearly Ceremony Charge"
                   size="small"
-                  required={
-                    selectInstalment == "2nd" || selectInstalment == "4th"
-                      ? false
-                      : true
-                  }
+                  required
                   fullWidth
                   color="secondary"
                   value={payment.yearlyCeremony}
@@ -411,22 +381,13 @@ export default function UpdateRecord({ data }) {
                 spacing={1}
               >
                 <TextField
-                  sx={{
-                    display:
-                      selectInstalment == "1st" || selectInstalment == "3rd"
-                        ? "none"
-                        : "block",
-                  }}
+               
                   label="Cadet Night Charge"
                   type="number"
                   placeholder="Cadet Night Charge"
                   size="small"
                   value={payment.cadetNightCharge}
-                  required={
-                    selectInstalment == "1st" || selectInstalment == "3rd"
-                      ? false
-                      : true
-                  }
+                  required
                   fullWidth
                   color="secondary"
                   onChange={(e) =>
@@ -437,26 +398,13 @@ export default function UpdateRecord({ data }) {
                   }
                 />
                 <TextField
-                  sx={{
-                    display:
-                      selectInstalment == "2nd" ||
-                      selectInstalment == "3rd" ||
-                      selectInstalment == "4th"
-                        ? "none"
-                        : "block",
-                  }}
+                 
                   label="Class Bag"
                   value={payment.classBag}
                   type="number"
                   placeholder="Class Bag"
                   size="small"
-                  required={
-                    selectInstalment == "2nd" ||
-                    selectInstalment == "3rd" ||
-                    selectInstalment == "4th"
-                      ? false
-                      : true
-                  }
+                  required
                   fullWidth
                   color="secondary"
                   onChange={(e) =>
@@ -479,6 +427,7 @@ export default function UpdateRecord({ data }) {
                     })
                   }
                 />
+          
               </Stack>
               <Stack
                 direction={{ xs: "column", sm: "row", md: "row" }}
@@ -538,26 +487,13 @@ export default function UpdateRecord({ data }) {
                 spacing={1}
               >
                 <TextField
-                  sx={{
-                    display:
-                      selectInstalment == "1st" ||
-                      selectInstalment == "3rd" ||
-                      selectInstalment == "4th"
-                        ? "none"
-                        : "block",
-                  }}
+                 
                   label="Passing Out Fee"
                   type="number"
                   value={payment.passingOut}
                   placeholder="Passing Out Fee"
                   size="small"
-                  required={
-                    selectInstalment == "1st" ||
-                    selectInstalment == "3rd" ||
-                    selectInstalment == "4th"
-                      ? false
-                      : true
-                  }
+                  required
                   fullWidth
                   color="secondary"
                   onChange={(e) =>
@@ -568,26 +504,13 @@ export default function UpdateRecord({ data }) {
                   }
                 />
                 <TextField
-                  sx={{
-                    display:
-                      selectInstalment == "1st" ||
-                      selectInstalment == "2nd" ||
-                      selectInstalment == "3rd"
-                        ? "none"
-                        : "block",
-                  }}
+                 
                   label="Kashanmani"
                   type="number"
                   value={payment.retuenable}
                   placeholder="Kashanmani(Retuenable)"
                   size="small"
-                  required={
-                    selectInstalment == "1st" ||
-                    selectInstalment == "2nd" ||
-                    selectInstalment == "3rd"
-                      ? false
-                      : true
-                  }
+                  required
                   fullWidth
                   color="secondary"
                   onChange={(e) =>

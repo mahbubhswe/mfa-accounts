@@ -1,7 +1,7 @@
 import * as React from "react";
 import axios from "axios";
 import { Box } from "@mui/material";
-import ShowList from "../components/ShowList";
+import ShowPaymentList from "../components/ShowPaymentList";
 import FadeLoader from "react-spinners/FadeLoader";
 import useSWR from "swr";
 const getPaymentList = (url) => axios.get(url).then((res) => res.data);
@@ -23,5 +23,5 @@ export default function PaymentList() {
     );
   }
 
-  return <ShowList data={data} />;
+  return <ShowPaymentList data={data} />;
 }

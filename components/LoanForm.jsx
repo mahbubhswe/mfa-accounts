@@ -142,106 +142,94 @@ export default function WithdrawForm() {
   }
   return (
     <>
-      <Container
-        sx={{
-          paddingX: { xs: "0px", sm: "5px", md: "300px" },
-          marginTop: "40px",
-        }}
-      >
-        <form onSubmit={handleSubmit}>
-          <Stack
-            spacing={2}
-            px={5}
-            pb={3}
+     
+        <Stack
+          onSubmit={handleSubmit}
+          spacing={2}
+          px={5}
+          pb={3}
+          component="form"
+        >
+          <Typography
+            variant="bold"
+            component={"h1"}
+            sx={{ color: "#222222" }}
+            align="center"
+          >
+            Loan System
+          </Typography>
+          <Divider>Enter loan Info bellow</Divider>
+          <FormControl size="small" color="secondary">
+            <InputLabel>Select</InputLabel>
+            <Select
+              value={sector}
+              required
+              onChange={(e) => setSector(e.target.value)}
+            >
+              <MenuItem selected value={"admissionFee"}>
+                ভর্তি ফি
+              </MenuItem>
+              <MenuItem value={"tutionFee"}>টিউশন ফি</MenuItem>
+              <MenuItem value={"diningCharge"}>ডাইনিং চার্জ</MenuItem>
+              <MenuItem value={"hairCutting"}>হেয়ার কাটিং</MenuItem>
+              <MenuItem value={"cablerOyaserManCharge"}>
+                কাবলার ও ওয়াসার ম্যান চার্জ
+              </MenuItem>
+              <MenuItem value={"religiousCharge"}>রিলিজিয়াস</MenuItem>
+              <MenuItem value={"newspaperMagazineCharge"}>
+                দ‌ৈনিক প‌এিকা ও সপ্তাহিক ম্যাগাজিন
+              </MenuItem>
+              <MenuItem value={"establishMaintainCharge"}>
+                স্ট্যাবলিশম্যান্ট ও মেইনটেনেন্স
+              </MenuItem>
+              <MenuItem value={"supervisionCharge"}>সুপারভিশন চার্জ</MenuItem>
+              <MenuItem value={"gameSportCharge"}>গেমস এন্ড স্পোর্টস</MenuItem>
+              <MenuItem value={"yearlyCeremony"}>
+                বার্ষিক সাংস্কৃতিক অনুষ্ঠান
+              </MenuItem>
+              <MenuItem value={"educationalTour"}>শিক্ষা সফর</MenuItem>
+              <MenuItem value={"cadetNightCharge"}>ক্যাডেটস নাইট</MenuItem>
+              <MenuItem value={"classBag"}>শিক্ষা সামগ্রী</MenuItem>
+              <MenuItem value={"crodhingDabing"}>ক্লোদিং ও বেডিং</MenuItem>
+              <MenuItem value={"meritimeCharge"}>
+                মেরিটাইম বিশ্ববিদ্যালয় ফি
+              </MenuItem>
+              <MenuItem value={"aboutExam"}>
+                পরীক্ষা সংক্রান্ত বিধি ব্যয়
+              </MenuItem>
+              <MenuItem value={"passingOut"}>আনুষ্ঠানিক পসিং আউট</MenuItem>
+              <MenuItem value={"retuenable"}>কশানমানি</MenuItem>
+            </Select>
+          </FormControl>
+
+          <TextField
+            size="small"
+            type="number"
+            color="secondary"
+            variant="outlined"
+            placeholder="Enter amount"
+            onChange={(e) => setAmount(e.target.value)}
+            required
+          />
+          <Typography
             sx={{
-              border: "1px solid #ccc",
-              padding: "30px",
-              borderRadius: "4px",
+              display: worning ? "block" : "none",
+              color: "red",
             }}
           >
-            <Typography
-              variant="bold"
-              component={"h1"}
-              sx={{ color: "#222222" }}
-              align="center"
-            >
-              Loan System
-            </Typography>
-            <Divider>Enter loan Info bellow</Divider>
-            <FormControl size="small" color="secondary">
-              <InputLabel>Select</InputLabel>
-              <Select
-                value={sector}
-                required
-                onChange={(e) => setSector(e.target.value)}
-              >
-                <MenuItem selected value={"admissionFee"}>
-                  ভর্তি ফি
-                </MenuItem>
-                <MenuItem value={"tutionFee"}>টিউশন ফি</MenuItem>
-                <MenuItem value={"diningCharge"}>ডাইনিং চার্জ</MenuItem>
-                <MenuItem value={"hairCutting"}>হেয়ার কাটিং</MenuItem>
-                <MenuItem value={"cablerOyaserManCharge"}>
-                  কাবলার ও ওয়াসার ম্যান চার্জ
-                </MenuItem>
-                <MenuItem value={"religiousCharge"}>রিলিজিয়াস</MenuItem>
-                <MenuItem value={"newspaperMagazineCharge"}>
-                  দ‌ৈনিক প‌এিকা ও সপ্তাহিক ম্যাগাজিন
-                </MenuItem>
-                <MenuItem value={"establishMaintainCharge"}>
-                  স্ট্যাবলিশম্যান্ট ও মেইনটেনেন্স
-                </MenuItem>
-                <MenuItem value={"supervisionCharge"}>সুপারভিশন চার্জ</MenuItem>
-                <MenuItem value={"gameSportCharge"}>
-                  গেমস এন্ড স্পোর্টস
-                </MenuItem>
-                <MenuItem value={"yearlyCeremony"}>
-                  বার্ষিক সাংস্কৃতিক অনুষ্ঠান
-                </MenuItem>
-                <MenuItem value={"educationalTour"}>শিক্ষা সফর</MenuItem>
-                <MenuItem value={"cadetNightCharge"}>ক্যাডেটস নাইট</MenuItem>
-                <MenuItem value={"classBag"}>শিক্ষা সামগ্রী</MenuItem>
-                <MenuItem value={"crodhingDabing"}>ক্লোদিং ও বেডিং</MenuItem>
-                <MenuItem value={"meritimeCharge"}>
-                  মেরিটাইম বিশ্ববিদ্যালয় ফি
-                </MenuItem>
-                <MenuItem value={"aboutExam"}>
-                  পরীক্ষা সংক্রান্ত বিধি ব্যয়
-                </MenuItem>
-                <MenuItem value={"passingOut"}>আনুষ্ঠানিক পসিং আউট</MenuItem>
-                <MenuItem value={"retuenable"}>কশানমানি</MenuItem>
-              </Select>
-            </FormControl>
-
-            <TextField
-              size="small"
-              type="number"
-              color="secondary"
-              variant="outlined"
-              placeholder="Enter amount"
-              onChange={(e) => setAmount(e.target.value)}
-              required
-            />
-            <Typography
-              sx={{
-                display: worning ? "block" : "none",
-                color: "red",
-              }}
-            >
-              Found insufficient balance.
-              <p style={{ color: "green" }}>Balance: {currentBalance} tk</p>
-            </Typography>
-            <Button
-              variant="outlined"
-              fullWidth
-              sx={{ background: "#8D94CB", color: "#000000" }}
-              type="submit"
-            >
-              Next
-            </Button>
-          </Stack>
-        </form>
-      </Container>
+            Found insufficient balance.
+            <p style={{ color: "green" }}>Balance: {currentBalance} tk</p>
+          </Typography>
+          <Button
+            variant="outlined"
+            fullWidth
+            sx={{ background: "#8D94CB", color: "#000000" }}
+            type="submit"
+          >
+            Next
+          </Button>
+        </Stack>
+     
       <Dialog open={show}>
         <Paper variant="outlined" sx={{ border: "1px solid #ccc" }}>
           <DialogTitle>

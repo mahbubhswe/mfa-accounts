@@ -21,7 +21,6 @@ import axios from "axios";
 import useSWR from "swr";
 import { HashLoader } from "react-spinners";
 import { writeStorage } from "@rehooks/local-storage";
-import { useRouter } from "next/router";
 const getBalanceInfo = (url) => axios.get(url).then((res) => res.data);
 export default function AccountsList({
   deposit,
@@ -99,34 +98,40 @@ export default function AccountsList({
     },
     {
       id: 14,
-      title: "এডুকেশনাল ট্যুর",
+      title: "শিক্ষা সফর",
       balance: data ? data.educationalTour : 0,
     },
     {
       id: 15,
+      title: "বিদেশি শিক্ষা সফর",
+      balance: data ? data.abroadEducationalTours : 0,
+    },
+    {
+      id: 16,
       title: "ক্লোদিং ও বেডিং",
       balance: data ? data.crodhingDabing : 0,
     },
     {
-      id: 16,
+      id: 17,
       title: "মেরিটাইম বিশ্ববিদ্যালয় ফি",
       balance: data ? data.meritimeCharge : 0,
     },
     {
-      id: 17,
+      id: 18,
       title: "পরীক্ষা সংক্রান্ত বিধি ব্যয়",
       balance: data ? data.aboutExam : 0,
     },
     {
-      id: 18,
+      id: 19,
       title: "আনুষ্ঠানিক পসিং আউট",
       balance: data ? data.passingOut : 0,
     },
     {
-      id: 19,
+      id: 20,
       title: "কশানমানি ",
       balance: data ? data.retuenable : 0,
     },
+   
   ];
   if (data) {
     writeStorage("balance", data);
@@ -172,7 +177,10 @@ export default function AccountsList({
                 <MoneyIcon fontSize="large" />
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary="Total Deposit" secondary={`Balance: ${deposit}`} />
+            <ListItemText
+              primary="Total Deposit"
+              secondary={`Balance: ${deposit}`}
+            />
           </ListItem>
         </Grid>
         <Grid item className="dashboardItem">
@@ -184,7 +192,7 @@ export default function AccountsList({
             </ListItemAvatar>
             <ListItemText
               primary="Current Balance"
-              secondary={`Balance: ${deposit-withdrawBalance}`}
+              secondary={`Balance: ${deposit - withdrawBalance}`}
             />
           </ListItem>
         </Grid>

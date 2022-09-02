@@ -16,16 +16,17 @@ handler.post(async (req, res, next) => {
       res.send(
         `Student ID ${req.query.id} already made payment for ${check.instalment} instalment`
       );
-    }
-    const exist = await Student.findOne({ studentID: req.query.id });
-    if (exist) {
-      const newPayment = new Payment({
-        ...req.body,
-      });
-      const payment = await newPayment.save();
-      res.send("Payment Added successfully");
     } else {
-      res.send(`Student ID not exist.Please add before make a payment`);
+      const exist = await Student.findOne({ studentID: req.query.id });
+      if (exist) {
+        const newPayment = new Payment({
+          ...req.body,
+        });
+        await newPayment.save();
+        res.send("Payment Added successfully");
+      } else {
+        res.send(`Student ID not exist.Please add before make a payment`);
+      }
     }
   } catch (error) {
     res.send(error.message);

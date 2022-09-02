@@ -102,15 +102,17 @@ export default function CheckRequest() {
   };
   return (
     <>
-      <Container sx={{ marginTop: "25px" }}>
-        <Paper sx={{ padding: "15px" }}>
+    
           <Divider sx={{ fontSize: "35px", fontWeight: 700 }}>
             Transaction Request
           </Divider>
           <div
             style={{ height: "100%", display: "grid", placeContent: "center" }}
           >
-            <TableContainer stickyHeader={true}>
+            <TableContainer  sx={{
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+            }}>
               <TableHead>
                 <TableRow>
                   <TableCell align="center">Name</TableCell>
@@ -170,8 +172,7 @@ export default function CheckRequest() {
               </TableBody>
             </TableContainer>
           </div>
-        </Paper>
-      </Container>
+    
       <Dialog open={show}>
         <Paper variant="none" sx={{ border: "1px solid #ccc" }}>
           <DialogTitle>

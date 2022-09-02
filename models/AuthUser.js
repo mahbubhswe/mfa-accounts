@@ -18,8 +18,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  hasUpdatePer: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
   isAdmin: {
-    type: String,
+    type: Boolean,
     required: true,
     default: false,
   },

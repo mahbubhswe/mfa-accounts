@@ -51,9 +51,9 @@ export default function WithdrawForm() {
       {
         name: name,
         username: username,
-        email:email,
+        email: email,
         password: password,
-        isAdmin:userRole
+        isAdmin: userRole,
       },
       {
         headers: {
@@ -64,8 +64,8 @@ export default function WithdrawForm() {
     if (apiRes.status === 200) {
       setMsg(apiRes.data);
     }
-    setOpen(false)
-    setOpenSnackbar(true)
+    setOpen(false);
+    setOpenSnackbar(true);
   };
   const clossSnackbar = (event, reason) => {
     if (reason === "clickaway") {
@@ -74,98 +74,87 @@ export default function WithdrawForm() {
 
     setOpenSnackbar(false);
   };
-  
+
   return (
     <>
-      <Container
-        sx={{
-          paddingX: { xs: "0px", sm: "5px", md: "300px" },
-          marginTop: "40px",
-        }}
+      <Stack
+       component="form"
+       onSubmit={handleSubmit}
+       px={5}
+         pb={3}
+           spacing={2}
       >
-        <form onSubmit={handleSubmit}>
-          <Stack
-            spacing={2}
-            px={5}
-            pb={3}
-            sx={{
-              border: "1px solid #ccc",
-              padding: "30px",
-              borderRadius: "4px",
-            }}
+        <Typography
+          variant="bold"
+          component={"h1"}
+          sx={{ color: "#222222" }}
+          align="center"
+        >
+          Add New User
+        </Typography>
+        <Divider>Enter user information Bellow</Divider>
+        <TextField
+          size="small"
+          type="text"
+          label="Enter your name"
+          color="secondary"
+          variant="outlined"
+          placeholder="Enter full name"
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+        <TextField
+          size="small"
+          type="text"
+          label="Username"
+          color="secondary"
+          variant="outlined"
+          placeholder="Enter username"
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+        <FormControl size="small" color="secondary">
+          <InputLabel>Select user Role</InputLabel>
+          <Select
+            value={userRole}
+            required
+            onChange={(e) => setUserRole(e.target.value)}
           >
-            <Typography
-              variant="bold"
-              component={"h1"}
-              sx={{ color: "#222222" }}
-              align="center"
-            >
-             Add New User
-            </Typography>
-            <Divider>Enter user information Bellow</Divider>
-            <TextField
-              size="small"
-              type="text"
-              color="secondary"
-              variant="outlined"
-              placeholder="Enter full name"
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-               <TextField
-              size="small"
-              type="text"
-              color="secondary"
-              variant="outlined"
-              placeholder="Enter username"
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-              <FormControl size="small" color="secondary">
-              <InputLabel>Select user Role</InputLabel>
-              <Select
-                value={userRole}
-                required
-                onChange={(e) => setUserRole(e.target.value)}
-              >
-               
-                <MenuItem value={true}>Admin</MenuItem>
-                <MenuItem value={false}>Basic User</MenuItem>
-             
-              </Select>
-            </FormControl>
-               <TextField
-              size="small"
-              type="email"
-              color="secondary"
-              variant="outlined"
-              placeholder="Enter email address"
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-               <TextField
-              size="small"
-              type="text"
-              color="secondary"
-              variant="outlined"
-              placeholder="Enter password"
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          
+            <MenuItem value={true}>Admin</MenuItem>
+            <MenuItem value={false}>Accounts staff</MenuItem>
+          </Select>
+        </FormControl>
+        <TextField
+          size="small"
+          type="email"
+          label="Email address"
+          color="secondary"
+          variant="outlined"
+          placeholder="Enter email address"
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <TextField
+          size="small"
+          type="text"
+          color="secondary"
+          variant="outlined"
+          label="Password"
+          placeholder="Enter password"
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
 
-         
-            <Button
-              variant="outlined"
-              fullWidth
-              sx={{ background: "#8D94CB", color: "#000000" }}
-              type="submit"
-            >
-              Next
-            </Button>
-          </Stack>
-        </form>
-      </Container>
+        <Button
+          variant="outlined"
+          fullWidth
+          sx={{ background: "#8D94CB", color: "#000000" }}
+          type="submit"
+        >
+          Next
+        </Button>
+      </Stack>
+
       <Dialog open={show}>
         <Paper variant="outlined" sx={{ border: "1px solid #ccc" }}>
           <DialogTitle>
@@ -174,15 +163,13 @@ export default function WithdrawForm() {
             </Typography>
           </DialogTitle>
           <DialogTitle>
-            <Divider sx={{ color: "#1A2027" }}>
-              Check User Information
-            </Divider>
+            <Divider sx={{ color: "#1A2027" }}>Check User Information</Divider>
           </DialogTitle>
 
           <DialogContent>
             <DialogContentText sx={{ color: "#0A1929" }}>
               <Typography>Name: {name}</Typography>
-              <Typography>Role: {userRole?"Admin":"Basic user"}</Typography>
+              <Typography>Role: {userRole ? "Admin" : "Accounts staff"}</Typography>
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -213,7 +200,7 @@ export default function WithdrawForm() {
           </DialogActions>
         </Paper>
       </Dialog>
-      
+
       <Snackbar
         open={openSnackbar}
         autoHideDuration={4000}

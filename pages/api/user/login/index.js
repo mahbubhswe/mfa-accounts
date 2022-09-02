@@ -15,6 +15,7 @@ handler.post(async (req, res, next) => {
       name: user.name,
       username: user.username,
       email: user.email,
+      hasUpdatePer: user.hasUpdatePer,
       isAdmin: user.isAdmin,
     });
   } else if (user) {

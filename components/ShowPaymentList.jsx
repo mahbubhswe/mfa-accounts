@@ -79,7 +79,7 @@ export default function ShowList({ data }) {
               <IconButton
                 variant="contained"
                 sx={{ color: "#E15963" }}
-                disabled={userInfo.isAdmin == "true" ? false : true}
+                disabled={userInfo.isAdmin ? false : true}
                 onClick={() => deleteAlert(params.row._id)}
               >
                 <DeleteIcon />
@@ -87,7 +87,11 @@ export default function ShowList({ data }) {
               <IconButton
                 variant="contained"
                 sx={{ color: "#015B80" }}
-                disabled={userInfo.isAdmin == "true" ? false : true}
+                disabled={
+                   userInfo.hasUpdatePer
+                      ? false
+                      : true
+                }
                 onClick={() => handleUpdateOpenDetails(params.row._id)}
               >
                 <EditIcon />
@@ -178,31 +182,28 @@ export default function ShowList({ data }) {
   };
   return (
     <>
-      <div style={{ width: "90%", margin: "auto", marginTop: "30px" }}>
-        <Paper sx={{ padding: "10px" }}>
-          <div style={{ width: "80%", margin: "auto", marginBottom: "20px" }}>
-            <TextField
-              fullWidth
-              placeholder="Type student id"
-              type={"search"}
-              size="small"
-              label="Search by student ID"
-              variant="outlined"
-              color="secondary"
-              onChange={(e) => filterRecord(e.target.value)}
-            ></TextField>
-          </div>
-          <div style={{ height: 400, width: "100%" }}>
-            <DataGrid
-              rows={paymentList}
-              columns={columns}
-              getRowId={(row) => row._id}
-              pageSize={5}
-              rowsPerPageOptions={[5]}
-            />
-          </div>
-        </Paper>
+      <div style={{ width: "80%", margin: "auto", marginBottom: "20px" }}>
+        <TextField
+          fullWidth
+          placeholder="Type student id"
+          type={"search"}
+          size="small"
+          label="Search by student ID"
+          variant="outlined"
+          color="secondary"
+          onChange={(e) => filterRecord(e.target.value)}
+        ></TextField>
       </div>
+      <div style={{ height: 400, width: "100%" }}>
+        <DataGrid
+          rows={paymentList}
+          columns={columns}
+          getRowId={(row) => row._id}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
+        />
+      </div>
+
       <Dialog
         fullScreen
         open={open}

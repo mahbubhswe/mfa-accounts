@@ -19,7 +19,6 @@ import React from "react";
 import NextImage from "next/image";
 import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import axios from "axios";
 import CheckPaymentForStudent from "./CheckPaymentForStudent";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -37,8 +36,8 @@ export default function StudentHome() {
             <NextImage
               src={"/img/logo.png"}
               alt="logo"
-              height={200}
-              width={200}
+              height={130}
+              width={130}
               quality={100}
             />
           </Typography>
@@ -60,7 +59,8 @@ export default function StudentHome() {
             margin: "auto",
               marginTop: "20px",
               padding:"30px",
-            border: "1px solid #ccc"
+            border: "1px solid #ccc",
+            borderRadius:"4px"
            
           }}
         >

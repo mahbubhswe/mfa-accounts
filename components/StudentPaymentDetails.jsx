@@ -2,7 +2,6 @@ import {
   Box,
   Divider,
   FormControl,
-  InputLabel,
   MenuItem,
   Paper,
   Select,
@@ -10,6 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
+import Autocomplete from '@mui/material/Autocomplete';
 import FadeLoader from "react-spinners/FadeLoader";
 import useSWR from "swr";
 import axios from "axios";
@@ -121,6 +121,7 @@ export default function StudentPaymentDetails({ studentId }) {
               শিক্ষা সামগ্রী (ক্লাশ ব্যাগ): {item.classBag}
             </Typography>
             <Typography>শিক্ষা সফর: {item.educationalTour}</Typography>
+            <Typography>বিদেশি শিক্ষা সফর: {item.abroadEducationalTours}</Typography>
             <Typography>ক্লোদিং ও বেডিং: {item.crodhingDabing}</Typography>
             <Typography>
               মেরিটাইম বিশ্ববিদ্যালয় ফি: {item.meritimeCharge}

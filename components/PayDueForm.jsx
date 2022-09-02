@@ -58,29 +58,32 @@ export default function PayDueForm() {
       </Box>
     );
   }
-  function getConfirmation(id,due) {
+  function getConfirmation(id, due) {
     setId(id);
-    setDue(due)
+    setDue(due);
     setShow(true);
   }
   async function payDue() {
     if (amount > due) {
-      alert(`Your due is ${due} tk. It's not possiable to pay ${amount}`)
+      alert(`Your due is ${due} tk. It's not possiable to pay ${amount}`);
     } else {
       setShow(false);
-    setOpen(true);
-    const { data } = await axios.put(`/api/payDue?id=${id}`, {
-      amount:amount
-    }, {
-      headers: {
-        authorization: `Bearer ${userInfo.token}`,
-      },
-    });
-    setMsg(data);
-    setOpen(false);
-    setOpenSnackbar(true);
+      setOpen(true);
+      const { data } = await axios.put(
+        `/api/payDue?id=${id}`,
+        {
+          amount: amount,
+        },
+        {
+          headers: {
+            authorization: `Bearer ${userInfo.token}`,
+          },
+        }
+      );
+      setMsg(data);
+      setOpen(false);
+      setOpenSnackbar(true);
     }
-    
   }
 
   const clossSnackbar = (event, reason) => {
@@ -92,84 +95,83 @@ export default function PayDueForm() {
   };
   return (
     <>
-      <Container sx={{ marginTop: "30px" }}>
-        <Paper sx={{ padding: "20px" }} variant="none">
+   
+      
           <Divider>
             <Typography my={5} variant="bold" component="h2">
               Check Your Loan Status
             </Typography>
           </Divider>
-          <div style={{ display: "grid", placeContent: "center" }}>
-            <TableContainer
-              sx={{
-                background: "#F9FBFA",
-                border: "1px solid #ccc",
-                borderRadius: "4px",
-              }}
-            >
-              <TableHead>
-                <TableRow>
-                  <TableCell align="center">Name</TableCell>
-                  <TableCell align="center">Sector</TableCell>
-                  <TableCell align="center">Due</TableCell>
-                  <TableCell align="center">Status</TableCell>
-                  <TableCell align="center">Date</TableCell>
-                  <TableCell align="center">Action</TableCell>
+          <div
+            style={{ height: "100%", display: "grid", placeContent: "center" }}
+          >
+          <TableContainer
+            sx={{
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+            }}
+          >
+            <TableHead>
+              <TableRow>
+                <TableCell align="center">Name</TableCell>
+                <TableCell align="center">Sector</TableCell>
+                <TableCell align="center">Due</TableCell>
+                <TableCell align="center">Status</TableCell>
+                <TableCell align="center">Date</TableCell>
+                <TableCell align="center">Action</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {data.map((item) => (
+                <TableRow key={item._id}>
+                  <TableCell align="center">{item.name}</TableCell>
+                  <TableCell align="center">{item.sector}</TableCell>
+                  <TableCell align="center">{item.amount}</TableCell>
+                  <TableCell align="center">
+                    {item.amount == 0 ? (
+                      <span style={{ color: "green" }}>Paid</span>
+                    ) : (
+                      <span style={{ color: "red" }}>Unpaid</span>
+                    )}
+                  </TableCell>
+                  <TableCell align="center">
+                    {moment(item.createdAt).format("YY-MM-DD")}
+                  </TableCell>
+                  <TableCell align="center">
+                    <Button
+                      size="small"
+                      startIcon={<PaymentIcon />}
+                      disabled={item.amount == 0 ? true : false}
+                      variant="contained"
+                      onClick={() => getConfirmation(item._id, item.amount)}
+                    >
+                      Pay now
+                    </Button>
+                  </TableCell>
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {data.map((item) => (
-                  <TableRow key={item._id}>
-                    <TableCell align="center">{item.name}</TableCell>
-                    <TableCell align="center">{item.sector}</TableCell>
-                    <TableCell align="center">{item.amount}</TableCell>
-                    <TableCell align="center">
-                      {item.amount == 0 ? (
-                        <span style={{ color: "green" }}>Paid</span>
-                      ) : (
-                        <span style={{ color: "red" }}>Unpaid</span>
-                      )}
-                    </TableCell>
-                    <TableCell align="center">
-                      {moment(item.createdAt).format("YY-MM-DD")}
-                    </TableCell>
-                    <TableCell align="center">
-                      <Button
-                        size="small"
-                        startIcon={<PaymentIcon />}
-                        disabled={item.amount == 0 ? true : false}
-                        variant="contained"
-                        onClick={() => getConfirmation(item._id,item.amount)}
-                      >
-                        Pay now
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </TableContainer>
+              ))}
+            </TableBody>
+          </TableContainer>
           </div>
-        </Paper>
-      </Container>
-      <Dialog open={show} >
-        <Paper variant="outlined" sx={{ border: "1px solid #ccc", }}>
+    
+     
+      <Dialog open={show}>
+        <Paper variant="outlined" sx={{ border: "1px solid #ccc" }}>
           <DialogTitle>
             <Typography align="center" sx={{ paddingTop: "20px" }}>
               <HelpOutlineIcon sx={{ fontSize: "50px", color: "#007FFF" }} />
             </Typography>
           </DialogTitle>
-          <DialogTitle >
+          <DialogTitle>
             <Divider>Do you want to pay now?</Divider>
           </DialogTitle>
-          <DialogContent sx={{paddingTop:"10px"}}>
-           
-              <TextField
-                type="number"
-                label="Enter Amount"
-                placeholder="Enter amount"
-                onClick={(e) => setAmount(e.target.value)}
-              />
-           
+          <DialogContent sx={{ paddingTop: "10px" }}>
+            <TextField
+              type="number"
+              label="Enter Amount"
+              placeholder="Enter amount"
+              onClick={(e) => setAmount(e.target.value)}
+            />
           </DialogContent>
           <DialogActions>
             <Button
@@ -185,7 +187,7 @@ export default function PayDueForm() {
               Cancle
             </Button>
             <Button
-              disabled={amount>0?false:true}
+              disabled={amount > 0 ? false : true}
               sx={{
                 background: "#0057B7",
                 color: "#ffffff",

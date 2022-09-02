@@ -180,8 +180,7 @@ export default function ShowStudentList({ data }) {
   // };
   return (
     <>
-      <div style={{ width: "90%", margin: "auto", marginTop: "30px" }}>
-        <Paper sx={{ padding: "10px" }}>
+    
           <Typography
             variant="bold"
             component="h1"
@@ -211,8 +210,7 @@ export default function ShowStudentList({ data }) {
               rowsPerPageOptions={[5]}
             />
           </div>
-        </Paper>
-      </div>
+       
       {/* <Dialog
         fullScreen
         open={open}

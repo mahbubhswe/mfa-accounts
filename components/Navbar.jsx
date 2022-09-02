@@ -16,7 +16,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { useRouter } from "next/router";
 import PaymentIcon from "@mui/icons-material/Payment";
 import dynamic from "next/dynamic";
-import TransitionPage from "./../components/Transaction";
+import TransitionPage from "./SideMenuOptions";
 import CloseIcon from "@mui/icons-material/Close";
 import { contextStore } from "../utils/Store";
 import NextLink from "next/link";
@@ -34,12 +34,12 @@ function Navbar() {
   const [userInfo] = useLocalStorage("userInfo");
   const router = useRouter();
   const { dispatch } = useContext(contextStore);
+  
   const { data, error } = useSWR(
-    `/api/getNotification?username=${userInfo.username}`,
+    `/api/getNotification?username=${userInfo?userInfo.username?userInfo.username:null:null}`,
     getNotification
   );
 
-  
 
   //logout
   const userLogOut = () => {
@@ -169,7 +169,7 @@ function Navbar() {
               sx={{ background: "#ffffff" }}
               variant="outlined"
               startIcon={<PaymentIcon />}
-              onClick={() => router.push("/payment-system")}
+              onClick={() => router.push("/accounts/payment")}
             >
               Payment
             </Button>
@@ -222,7 +222,7 @@ function Navbar() {
               sx={{ background: "#ffffff" }}
               variant="outlined"
               startIcon={<PaymentIcon />}
-              onClick={() => router.push("/payment-system")}
+              onClick={() => router.push("/accounts/payment")}
             >
               Payment
             </Button>

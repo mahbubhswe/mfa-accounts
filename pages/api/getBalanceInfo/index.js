@@ -25,6 +25,7 @@ handler.get(async (req, res, next) => {
           cadetNightCharge: { $sum: "$cadetNightCharge" },
           classBag: { $sum: "$classBag" },
           educationalTour: { $sum: "$educationalTour" },
+          abroadEducationalTours: { $sum: "$abroadEducationalTours" },
           crodhingDabing: { $sum: "$crodhingDabing" },
           meritimeCharge: { $sum: "$meritimeCharge" },
           aboutExam: { $sum: "$aboutExam" },
@@ -75,6 +76,8 @@ handler.get(async (req, res, next) => {
       classBag: paymentsInfo[0].classBag - getFilteredBalance("classBag"),
       educationalTour:
         paymentsInfo[0].educationalTour - getFilteredBalance("educationalTour"),
+        abroadEducationalTours:
+        paymentsInfo[0].abroadEducationalTours - getFilteredBalance("abroadEducationalTours"),
       crodhingDabing:
         paymentsInfo[0].crodhingDabing - getFilteredBalance("crodhingDabing"),
       meritimeCharge:

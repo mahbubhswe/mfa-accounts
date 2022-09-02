@@ -1,16 +1,41 @@
+import { Box, Stack, Paper } from "@mui/material";
 import Head from "next/head";
 import React from "react";
-import Footer from "./Footer";
-import Navbar from "./Navbar";
+import SideMenuOptions from "../components/SideMenuOptions";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 export default function Layout({ pageTitle, children }) {
   return (
     <React.Fragment>
       <Head>
         <title>{pageTitle ? pageTitle : "Dashboard | MFA Accounts"}</title>
       </Head>
-      <Navbar></Navbar>
-      <main>{children}</main>
-      <Footer/>
+      <Navbar />
+      <main>
+        <Stack
+          direction={"row"}
+          sx={{
+            background: "#F7F9FA",
+            paddingBottom: "500px",
+          }}
+        >
+          <Box
+            sx={{
+              width: "220px",
+              paddingLeft: "25px",
+              display: { xs: "none", sm: "block", md: "block" },
+            }}
+          >
+            <Box sx={{ height: "100vh", position: "fixed", overflow: "auto" }}>
+              <SideMenuOptions />
+            </Box>
+          </Box>
+          <Box sx={{ flexGrow: 1, padding: "6px", margin: "30px" }}>
+            <Paper sx={{ padding: "25px", marginTop: "5px" }}>{children}</Paper>
+          </Box>
+        </Stack>
+      </main>
+      <Footer />
     </React.Fragment>
   );
 }
