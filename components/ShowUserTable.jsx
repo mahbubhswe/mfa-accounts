@@ -117,7 +117,7 @@ export default function ShowUserTable({ data }) {
                 <TableCell>
                   {moment(user.createdAt).format("YY-MM-DD")}
                 </TableCell>
-                <TableCell>{user.isAdmin ? "Admin" : "Staff user"}</TableCell>
+                <TableCell>{user.isAdmin ? "Admin" : "Accounts staff"}</TableCell>
                 <TableCell align="center">
                   <Button
                     disabled={user.isAdmin ? true : false}
