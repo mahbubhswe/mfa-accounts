@@ -43,9 +43,9 @@ export default function ShowList({ data }) {
   const [userInfo] = useLocalStorage("userInfo");
   const columns = React.useMemo(
     () => [
-      { field: "studentId", headerName: "Student ID", width: "200" },
-      { field: "instalment", headerName: "Semester", width: "200" },
-      { field: "amount", headerName: "Amount", width: "200" },
+      { field: "studentId", headerName: "Student ID", width: "150" },
+      { field: "instalment", headerName: "Semester", width: "150" },
+      { field: "amount", headerName: "Amount", width: "150" },
       {
         field: "createdAt",
         headerName: "Date",
@@ -56,7 +56,7 @@ export default function ShowList({ data }) {
       {
         field: "detailsId",
         headerName: "Details",
-        width: "200",
+        width: "150",
         renderCell: (params) => {
           return (
             <IconButton
@@ -72,7 +72,7 @@ export default function ShowList({ data }) {
       {
         field: "_id",
         headerName: "Action",
-        width: "200",
+        width: "150",
         renderCell: (params) => {
           return (
             <ButtonGroup>

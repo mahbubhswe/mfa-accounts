@@ -30,8 +30,20 @@ export default function Layout({ pageTitle, children }) {
               <SideMenuOptions />
             </Box>
           </Box>
-          <Box sx={{ flexGrow: 1, padding: "6px", margin: "30px" }}>
-            <Paper sx={{ padding: "25px", marginTop: "5px" }}>{children}</Paper>
+          <Box
+            sx={{
+              flexGrow: 1,
+              margin: { xs: "5px", sm: "12px", md: "50px" },
+            }}
+          >
+            <Paper
+              sx={{
+                padding: { xs: "0px", sm: "30px", md: "80px" },
+                marginTop: "10px",
+              }}
+            >
+              {children}
+            </Paper>
           </Box>
         </Stack>
       </main>
