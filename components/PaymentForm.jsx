@@ -127,7 +127,7 @@ export default function PaymentForm() {
     }
   };
 
-  if (!data) {
+  if (!data || !studentList) {
     return (
       <div style={{ height: "100vh", display: "grid", placeContent: "center" }}>
         <FadeLoader size={50} color="#6DC69D" />
@@ -166,6 +166,7 @@ export default function PaymentForm() {
             <MenuItem value={"4th"}>4th Instalment</MenuItem>
           </Select>
         </FormControl>
+
         <Autocomplete
           value={studentId}
           size="small"
@@ -177,6 +178,7 @@ export default function PaymentForm() {
             <TextField {...params} color="secondary" label="Student ID" />
           )}
         />
+
         <TextField
           label="Amount"
           type={"number"}
