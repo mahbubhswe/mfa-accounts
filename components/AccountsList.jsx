@@ -160,7 +160,7 @@ export default function AccountsList({
                 <ListIcon fontSize="large" />
               </Avatar>
             </ListItemAvatar>
-            <NextLink href={"/student-payment-list"}>
+            <NextLink href={"/accounts/payment-list"}>
               <a>
                 <ListItemText
                   primary="Payment List"

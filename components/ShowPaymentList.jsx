@@ -10,8 +10,6 @@ import {
   Dialog,
   IconButton,
   Slide,
-  Button,
-  Paper,
   Snackbar,
   TextField,
   Toolbar,

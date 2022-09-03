@@ -27,6 +27,7 @@ import { useState } from "react";
 export default function UpdateRecord({ data }) {
   const [open, setOpen] = useState(false);
   const [show, setShow] = useState(false);
+  const [msg, setMsg] = useState();
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [studentId, setStudentId] = useState(data.studentId);
   const [selectInstalment, setSelectInstalment] = useState(data.instalment);
@@ -69,7 +70,7 @@ export default function UpdateRecord({ data }) {
     setShow(false);
     setOpen(true);
     const apiRes = await axios.put(
-      `/api/updatePayment?_id=${data._id}`,
+      `/api/updatePayment?_id=${data._id}&userEmail=${data.email}`,
       {
         studentId: studentId,
         detailsId: studentId,
@@ -89,7 +90,7 @@ export default function UpdateRecord({ data }) {
         cadetNightCharge: payment.cadetNightCharge,
         classBag: payment.classBag,
         educationalTour: payment.educationalTour,
-        abroadEducationalTours:payment.abroadEducationalTours,
+        abroadEducationalTours: payment.abroadEducationalTours,
         crodhingDabing: payment.crodhingDabing,
         meritimeCharge: payment.meritimeCharge,
         aboutExam: payment.aboutExam,
@@ -102,9 +103,9 @@ export default function UpdateRecord({ data }) {
         },
       }
     );
-    if (apiRes.status === 200) {
-      setOpenSnackbar(true);
-    }
+
+    setMsg(apiRes.data);
+    setOpenSnackbar(true);
     setOpen(false);
   };
 
@@ -113,7 +114,7 @@ export default function UpdateRecord({ data }) {
       return;
     }
     setOpenSnackbar(false);
-    Router.reload()
+    Router.reload();
   };
   return (
     <>
@@ -196,7 +197,6 @@ export default function UpdateRecord({ data }) {
                   }
                 />
                 <TextField
-                 
                   label="Dining Charge"
                   type="number"
                   placeholder="Dining Charge"
@@ -249,29 +249,27 @@ export default function UpdateRecord({ data }) {
                     })
                   }
                 />
-                      <TextField
-                 
-                 label="Religious Charge"
-                 type="number"
-                 placeholder="Religious Charge"
-                 size="small"
-                 value={payment.religiousCharge}
-                 required
-                 fullWidth
-                 color="secondary"
-                 onChange={(e) =>
-                   setpayment({
-                     ...payment,
-                     religiousCharge: Number(e.target.value),
-                   })
-                 }
-               />
+                <TextField
+                  label="Religious Charge"
+                  type="number"
+                  placeholder="Religious Charge"
+                  size="small"
+                  value={payment.religiousCharge}
+                  required
+                  fullWidth
+                  color="secondary"
+                  onChange={(e) =>
+                    setpayment({
+                      ...payment,
+                      religiousCharge: Number(e.target.value),
+                    })
+                  }
+                />
               </Stack>
               <Stack
                 direction={{ xs: "column", sm: "row", md: "row" }}
                 spacing={1}
               >
-          
                 <TextField
                   label="Newspaper and Magazine Charge"
                   type="number"
@@ -304,7 +302,7 @@ export default function UpdateRecord({ data }) {
                     })
                   }
                 />
-                           <TextField
+                <TextField
                   label="Abroad Educational Tour"
                   type="number"
                   placeholder="Abroad Educational Tour"
@@ -342,7 +340,6 @@ export default function UpdateRecord({ data }) {
                   }
                 />
                 <TextField
-                  
                   label="Games and Sports Charge"
                   type="number"
                   placeholder="Games and Sports Charge"
@@ -359,7 +356,6 @@ export default function UpdateRecord({ data }) {
                   }
                 />
                 <TextField
-                 
                   label="Yearly Ceremony Charge"
                   type="number"
                   placeholder="Yearly Ceremony Charge"
@@ -381,7 +377,6 @@ export default function UpdateRecord({ data }) {
                 spacing={1}
               >
                 <TextField
-               
                   label="Cadet Night Charge"
                   type="number"
                   placeholder="Cadet Night Charge"
@@ -398,7 +393,6 @@ export default function UpdateRecord({ data }) {
                   }
                 />
                 <TextField
-                 
                   label="Class Bag"
                   value={payment.classBag}
                   type="number"
@@ -427,7 +421,6 @@ export default function UpdateRecord({ data }) {
                     })
                   }
                 />
-          
               </Stack>
               <Stack
                 direction={{ xs: "column", sm: "row", md: "row" }}
@@ -487,7 +480,6 @@ export default function UpdateRecord({ data }) {
                 spacing={1}
               >
                 <TextField
-                 
                   label="Passing Out Fee"
                   type="number"
                   value={payment.passingOut}
@@ -504,7 +496,6 @@ export default function UpdateRecord({ data }) {
                   }
                 />
                 <TextField
-                 
                   label="Kashanmani"
                   type="number"
                   value={payment.retuenable}
@@ -545,7 +536,7 @@ export default function UpdateRecord({ data }) {
       </div>
 
       <Dialog open={show} sx={{ border: "1px solid #ccc" }}>
-        <DialogTitle>{"Are you sure?"}</DialogTitle>
+        <DialogTitle>Are you sure?</DialogTitle>
         <DialogContent>
           <DialogContentText sx={{ color: "#0A1929" }}>
             Do you sure want to update now
@@ -570,7 +561,7 @@ export default function UpdateRecord({ data }) {
         open={openSnackbar}
         autoHideDuration={1000}
         onClose={clossSnackbar}
-        message="Record has been updated successfully"
+        message={msg}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
         <Alert
@@ -582,7 +573,7 @@ export default function UpdateRecord({ data }) {
             border: "1px solid #ccc",
           }}
         >
-          Record has been updated successfully
+          {msg}
         </Alert>
       </Snackbar>
     </>

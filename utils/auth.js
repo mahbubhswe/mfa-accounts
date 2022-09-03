@@ -36,6 +36,6 @@ export const isAdmin = async (req, res, next) => {
   if (req.user.isAdmin) {
     next();
   } else {
-    res.status(401).send({ message: "User is not admin" });
+    res.send("User is not admin");
   }
 };

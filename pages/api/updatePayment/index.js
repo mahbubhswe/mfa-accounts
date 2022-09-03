@@ -1,22 +1,28 @@
 import Payment from "../../../models/Payment.js";
+import AuthUser from "../../../models/AuthUser.js";
 import nextConnect from "next-connect";
 import connectMongo from "../../../utils/connectMongo.js";
-import { isAuth, isAdmin } from "../../../utils/auth.js";
+import { isAuth } from "../../../utils/auth.js";
 const handler = nextConnect();
-handler.use(isAuth)
-handler.use(isAdmin)
+handler.use(isAuth);
 handler.put(async (req, res, next) => {
   try {
     await connectMongo();
-    const updatedPayment = await Payment.findByIdAndUpdate(
-      req.query._id,
-      req.body
-    );
-    if (updatedPayment) {
-      res.status(200).json("Payment updated successfully!");
+    await AuthUser.findOne({ email: req.query.userEmail, hasUpdatePer: true });
+    if (AuthUser) {
+      const updatedPayment = await Payment.findByIdAndUpdate(
+        req.query._id,
+        req.body
+      );
+      if (updatedPayment) {
+        res.send("Payment updated successfully!");
+      } else {
+        res.send("Sorry, somethingh wrong happened!");
+      }
     } else {
-      res.status(500).json("Sorry, somethingh wrong happened!");
+      res.send("Sorry, you are not allowed to update records");
     }
+   
   } catch (error) {
     res.send(error.message);
   }

@@ -19,6 +19,7 @@ import { useLocalStorage } from "@rehooks/local-storage";
 import useSWR from "swr";
 import { FadeLoader } from "react-spinners";
 import Swal from "sweetalert2";
+import Router from "next/router";
 const getStudentList = (url) => axios.get(url).then((res) => res.data);
 const getSingleInstalment = (url) => axios.get(url).then((res) => res.data);
 export default function PaymentForm() {
@@ -104,6 +105,10 @@ export default function PaymentForm() {
         icon: "success",
         title: "Payment success",
         text: apiRes.data,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Router.reload();
+        }
       });
     } else if (
       apiRes.data == "Student ID not exist.Please add before make a payment"
