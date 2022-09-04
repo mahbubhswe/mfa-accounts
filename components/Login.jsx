@@ -58,7 +58,7 @@ export default function SignIn() {
   return (
     <div className="loginPageBgColor">
       <Container>
-        <Slide left >
+        <Slide left>
           <Paper variant="outlined">
             <LinearProgress sx={{ display: showLoading ? "block" : "none" }} />
             <Stack>
@@ -104,6 +104,7 @@ export default function SignIn() {
                         variant="outlined"
                         placeholder="Enter email address"
                         required
+                        fullWidth
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position="start">
@@ -123,6 +124,7 @@ export default function SignIn() {
                       color="secondary"
                       type={show ? "text" : "password"}
                       variant="outlined"
+                      fullWidth
                       placeholder="Enter password"
                       onChange={(e) => setPassword(e.target.value)}
                       required
