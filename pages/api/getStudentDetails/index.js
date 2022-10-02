@@ -9,7 +9,9 @@ handler.get(async (req, res, next) => {
       studentID: req.query.id,
     });
     if (studentInfo) {
-      res.status(200).send(studentInfo);
+      res.send(studentInfo);
+    } else {
+      res.send("Sorry, no student found");
     }
   } catch (error) {
     res.send(error.message);
