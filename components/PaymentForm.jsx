@@ -32,6 +32,7 @@ export default function PaymentForm() {
     `/api/getSingleInstalment?instalment=${instalment}`,
     getSingleInstalment
   );
+  
   const { data: studentList } = useSWR(`/api/getStudentList`, getStudentList);
 
   //ask for payment

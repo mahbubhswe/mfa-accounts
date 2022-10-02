@@ -121,6 +121,7 @@ export default function WithdrawForm() {
             onChange={(e) => setUserRole(e.target.value)}
           >
             <MenuItem value={true}>Admin</MenuItem>
+            <MenuItem value={false}>Bank User</MenuItem>
             <MenuItem value={false}>Accounts staff</MenuItem>
           </Select>
         </FormControl>
