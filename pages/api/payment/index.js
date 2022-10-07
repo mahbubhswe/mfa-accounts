@@ -16,7 +16,7 @@ handler.post(async (req, res, next) => {
     if (check) {
       res.send(`This student already made payment for selected semester`);
     } else {
-      const exist = await Student.findOne({ studentID: req.query.id });
+      const exist = await Student.findOne({ studentID: req.body.studentId });
       if (exist) {
         req.body.detailsId = req.body.studentId;
         const newPayment = new Payment({
