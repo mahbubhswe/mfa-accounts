@@ -19,7 +19,6 @@ import {
   Alert,
   Snackbar,
 } from "@mui/material";
-import { Container } from "@mui/system";
 import React from "react";
 import InfoIcon from "@mui/icons-material/Info";
 import { useState } from "react";
@@ -165,7 +164,12 @@ export default function WithdrawForm() {
             <DialogContentText sx={{ color: "#0A1929" }}>
               <Typography>Name: {name}</Typography>
               <Typography>
-                Role: {userRole ? "Admin" : "Accounts staff"}
+                Role:
+                {userType == "admin"
+                  ? "Admin"
+                  : userType == "bank"
+                  ? "Bank user"
+                  : "Accounts staff"}
               </Typography>
             </DialogContentText>
           </DialogContent>

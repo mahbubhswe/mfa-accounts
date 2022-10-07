@@ -32,7 +32,7 @@ export default function PaymentForm() {
     `/api/getSingleInstalment?instalment=${instalment}`,
     getSingleInstalment
   );
-  
+
   const { data: studentList } = useSWR(`/api/getStudentList`, getStudentList);
 
   //ask for payment
@@ -117,6 +117,12 @@ export default function PaymentForm() {
         icon: "warning",
         title: "Oops...",
         text: `Student ID ${studentId} is not exist.Please add before make a payment`,
+      });
+    } else if (apiRes.data == "Only bank users are allowed to make payment") {
+      Swal.fire({
+        icon: "warning",
+        title: "Oops...",
+        text: apiRes.data,
       });
     } else {
       Swal.fire({
