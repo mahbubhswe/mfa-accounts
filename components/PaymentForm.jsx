@@ -67,10 +67,9 @@ export default function PaymentForm() {
   const makeNewPayment = async () => {
     setOpen(true);
     const apiRes = await axios.post(
-      `/api/payment?id=${studentId}`,
+      `/api/payment`,
       {
         studentId: studentId,
-        detailsId: studentId,
         instalment: data.instalment,
         admissionFee: data.admissionFee,
         tutionFee: data.tutionFee,

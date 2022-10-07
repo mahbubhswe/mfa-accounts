@@ -32,8 +32,16 @@ export const isAuth = (req, res, next) => {
   }
 };
 
+export const isBankUser = (req, res, next) => {
+  if (req.user.userType == "bank") {
+    next();
+  } else {
+    res.send("Only bank users are allowed to make payment");
+  }
+};
+
 export const isAdmin = async (req, res, next) => {
-  if (req.user.userType=="admin") {
+  if (req.user.userType == "admin") {
     next();
   } else {
     res.send("User is not admin");
