@@ -6,7 +6,7 @@ export const signToken = (user) => {
       name: user.name,
       username: user.username,
       email: user.email,
-      isAdmin: user.isAdmin,
+      userType: user.userType,
     },
     process.env.JWT_screet,
     {
@@ -33,7 +33,7 @@ export const isAuth = (req, res, next) => {
 };
 
 export const isAdmin = async (req, res, next) => {
-  if (req.user.isAdmin) {
+  if (req.user.userType=="admin") {
     next();
   } else {
     res.send("User is not admin");

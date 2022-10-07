@@ -7,7 +7,7 @@ handler.get(async (req, res, next) => {
     await connectMongo();
     const studentInfo = await Student.findOne({
       studentID: req.query.id,
-    });
+    },{createdAt:0,__v:0,_id:0});
     if (studentInfo) {
       res.send(studentInfo);
     } else {

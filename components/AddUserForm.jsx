@@ -26,7 +26,7 @@ import { useState } from "react";
 import { useLocalStorage } from "@rehooks/local-storage";
 import axios from "axios";
 export default function WithdrawForm() {
-  const [userRole, setUserRole] = useState(false);
+  const [userType, setUserType] = useState();
   const [name, setName] = useState();
   const [username, setUsername] = useState();
   const [email, setEmail] = useState();
@@ -53,7 +53,7 @@ export default function WithdrawForm() {
         username: username,
         email: email,
         password: password,
-        isAdmin: userRole,
+        userType: userType,
       },
       {
         headers: {
@@ -77,13 +77,7 @@ export default function WithdrawForm() {
 
   return (
     <>
-      <Stack
-       component="form"
-       onSubmit={handleSubmit}
-       px={5}
-         pb={3}
-           spacing={2}
-      >
+      <Stack component="form" onSubmit={handleSubmit} px={5} pb={3} spacing={2}>
         <Typography
           variant="bold"
           component={"h1"}
@@ -116,13 +110,13 @@ export default function WithdrawForm() {
         <FormControl size="small" color="secondary">
           <InputLabel>Select user Role</InputLabel>
           <Select
-            value={userRole}
+            value={userType}
             required
-            onChange={(e) => setUserRole(e.target.value)}
+            onChange={(e) => setUserType(e.target.value)}
           >
-            <MenuItem value={true}>Admin</MenuItem>
-            <MenuItem value={false}>Bank User</MenuItem>
-            <MenuItem value={false}>Accounts staff</MenuItem>
+            <MenuItem value={"admin"}>Admin</MenuItem>
+            <MenuItem value={"bank"}>Bank User</MenuItem>
+            <MenuItem value={"staff"}>Accounts staff</MenuItem>
           </Select>
         </FormControl>
         <TextField
@@ -170,7 +164,9 @@ export default function WithdrawForm() {
           <DialogContent>
             <DialogContentText sx={{ color: "#0A1929" }}>
               <Typography>Name: {name}</Typography>
-              <Typography>Role: {userRole ? "Admin" : "Accounts staff"}</Typography>
+              <Typography>
+                Role: {userRole ? "Admin" : "Accounts staff"}
+              </Typography>
             </DialogContentText>
           </DialogContent>
           <DialogActions>

@@ -14,7 +14,7 @@ handler.post(async (req, res, next) => {
       username: req.body.username,
       email: req.body.email,
       password: bcryptjs.hashSync(req.body.password),
-      isAdmin: req.body.isAdmin
+      userType: req.body.userType
     });
     await newAuthUser.save();
     return res.status(200).json("User added successfully");

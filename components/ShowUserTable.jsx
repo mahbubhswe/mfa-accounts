@@ -38,12 +38,12 @@ export default function ShowUserTable({ data }) {
       showCancelButton: true,
       cancelButtonColor: "red",
       confirmButtonColor: "green",
-      confirmButtonText:"Yes",
+      confirmButtonText: "Yes",
       reverseButtons: true,
     }).then(async (result) => {
       if (result.isConfirmed) {
         setOpen(true);
-        const { data } =await axios.put(
+        const { data } = await axios.put(
           `/api/user/changeUpdatePermission?id=${id}`,
           { hasUpdatePer: hasUpdatePer },
           {
@@ -117,10 +117,16 @@ export default function ShowUserTable({ data }) {
                 <TableCell>
                   {moment(user.createdAt).format("YY-MM-DD")}
                 </TableCell>
-                <TableCell>{user.isAdmin ? "Admin" : "Accounts staff"}</TableCell>
+                <TableCell>
+                  {user.userType == "admin"
+                    ? "Admin"
+                    : user.userType == "bank"
+                    ? "Bank staff"
+                    : "Accounts staff"}
+                </TableCell>
                 <TableCell align="center">
                   <Button
-                    disabled={user.isAdmin ? true : false}
+                    disabled={user.userType == "admin" ? true : false}
                     startIcon={<ChangeCircleIcon />}
                     onClick={() => changeUpdatePer(user.hasUpdatePer, user._id)}
                   >

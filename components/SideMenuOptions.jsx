@@ -27,7 +27,7 @@ import { useRouter } from "next/router";
 const getRequestCount = (url) => axios.get(url).then((res) => res.data);
 export default function SideMenuOptions() {
   const [userInfo] = useLocalStorage("userInfo");
-  const { isAdmin } = userInfo;
+  const { userType } = userInfo;
   const router = useRouter();
   const { data, error } = useSWR("/api/getRequestCount", getRequestCount);
 
@@ -73,7 +73,7 @@ export default function SideMenuOptions() {
         <ListItem
           disablePadding
           sx={{
-            display: isAdmin ? "block" : "none",
+            display: userType=="admin" ? "block" : "none",
           }}
         >
           <ListItemButton
@@ -90,7 +90,7 @@ export default function SideMenuOptions() {
         <ListItem
           disablePadding
           sx={{
-            display: isAdmin  ? "block" : "none",
+            display: userType=="admin"? "block" : "none",
           }}
         >
           <ListItemButton
@@ -121,7 +121,7 @@ export default function SideMenuOptions() {
         </ListItem>
         <ListItem
           disablePadding
-          sx={{ display: isAdmin  ? "block" : "none" }}
+          sx={{ display: userType=="admin" ? "block" : "none" }}
         >
           <ListItemButton onClick={() => router.push("/user/add")}>
             <ListItemIcon>
@@ -132,7 +132,7 @@ export default function SideMenuOptions() {
         </ListItem>
         <ListItem
           disablePadding
-          sx={{ display: isAdmin  ? "block" : "none" }}
+          sx={{ display: userType=="admin"  ? "block" : "none" }}
         >
           <ListItemButton onClick={() => router.push("/user/list")}>
             <ListItemIcon>
@@ -143,7 +143,7 @@ export default function SideMenuOptions() {
         </ListItem>
         <ListItem
           disablePadding
-          sx={{ display: isAdmin  ? "block" : "none" }}
+          sx={{ display: userType=="admin"  ? "block" : "none" }}
         >
           <ListItemButton
             onClick={() => router.push("/accounts/instalment/add")}
@@ -156,7 +156,7 @@ export default function SideMenuOptions() {
         </ListItem>
         <ListItem
           disablePadding
-          sx={{ display: isAdmin ? "block" : "none" }}
+          sx={{ display: userType=="admin" ? "block" : "none" }}
         >
           <ListItemButton
             onClick={() => router.push("/accounts/instalment/manage")}

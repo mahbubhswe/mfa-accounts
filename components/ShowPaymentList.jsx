@@ -77,7 +77,7 @@ export default function ShowList({ data }) {
               <IconButton
                 variant="contained"
                 sx={{ color: "#E15963" }}
-                disabled={userInfo.isAdmin ? false : true}
+                disabled={userInfo.userType=="amin" ? false : true}
                 onClick={() => deleteAlert(params.row._id)}
               >
                 <DeleteIcon />

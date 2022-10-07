@@ -16,7 +16,7 @@ handler.post(async (req, res, next) => {
       username: user.username,
       email: user.email,
       hasUpdatePer: user.hasUpdatePer,
-      isAdmin: user.isAdmin,
+      userType: user.userType,
     });
   } else if (user) {
     res.send("Invalid email or password");

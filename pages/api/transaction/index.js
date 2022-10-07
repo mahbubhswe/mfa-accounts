@@ -11,11 +11,11 @@ handler.post(async (req, res, next) => {
       amount: req.body.amount,
       sector: req.body.sector,
       transactionType:req.body.transactionType,
-      isAdmin: req.user.isAdmin,
-      status: req.user.isAdmin=="true" ? "approved" : "pending",
+      userType: req.user.userType,
+      status: req.user.userType=="admin" ? "approved" : "pending",
     });
     await newTransaction.save();
-    if (req.user.isAdmin=="true") {
+    if (req.user.userType=="admin") {
       res.send(
         `${req.body.transactionType} transaction for ${req.body.amount} tk has been processed successfully`
       );
