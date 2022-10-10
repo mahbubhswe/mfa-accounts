@@ -189,10 +189,14 @@ export default function ShowUserTable({ data }) {
                 </TableCell>
                 <TableCell>
                   <ButtonGroup>
-                    <IconButton onClick={() => deleteRecord(user._id)}>
+                    <IconButton
+                      disabled={user.userType == "admin" ? true : false}
+                      onClick={() => deleteRecord(user._id)}
+                    >
                       <DeleteIcon color="error" />
                     </IconButton>
                     <IconButton
+                      disabled={user.userType == "admin" ? true : false}
                       onClick={() =>
                         router.push(
                           `/user/update?id=${user._id}&name=${user.name}&username=${user.username}&email=${user.email}&userType=${user.userType}`
