@@ -33,8 +33,8 @@ export default function SideMenuOptions() {
 
   return (
     <>
-      <div style={{ height: "120px", display: "grid", placeContent: "center" }}>
-        <Avatar src="/img/profile.png" sx={{ height: 80, width: 80 }}></Avatar>
+      <div style={{ height: "80px", display: "grid", placeContent: "center" }}>
+        <Avatar src="/img/profile.png" sx={{ height: 60, width: 60 }}></Avatar>
       </div>
       <Divider>{userInfo.name}</Divider>
       <List dense={true}>

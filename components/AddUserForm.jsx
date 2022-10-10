@@ -35,13 +35,13 @@ export default function WithdrawForm() {
   const [open, setOpen] = useState(false);
   const [userInfo] = useLocalStorage("userInfo");
   const [msg, setMsg] = useState();
-  //withdrow confirmation
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     e.target.reset();
     setShow(true);
   };
-  //withdrow
+  
   const confirmWithDrow = async () => {
     setShow(false);
     setOpen(true);

@@ -1,7 +1,9 @@
 import {
   Backdrop,
   Button,
+  ButtonGroup,
   Divider,
+  IconButton,
   TableBody,
   TableCell,
   TableContainer,
@@ -16,11 +18,14 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 import useLocalStorage from "@rehooks/local-storage";
-import Router from "next/router";
+import { useRouter } from "next/router";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 export default function ShowUserTable({ data }) {
   const [users, setUsers] = useState(data);
   const [open, setOpen] = useState(false);
   const [userInfo] = useLocalStorage("userInfo");
+  const router = useRouter();
   //filter user
   async function searchUser(userName) {
     if (userName == "") {
@@ -29,7 +34,55 @@ export default function ShowUserTable({ data }) {
       setUsers(data.filter((item) => item.username == userName));
     }
   }
-
+  // set alert information
+  function alertOnTaskDone(title, text, icon, confirmButtonText) {
+    Swal.fire({
+      title: title,
+      text: text,
+      icon: icon,
+      confirmButtonColor: "#3085d6",
+      confirmButtonText: confirmButtonText,
+    }).then((result) => {
+      if (result.value) {
+        router.reload(window.location.pathname);
+      }
+    });
+  }
+  // delete user
+  async function deleteRecord(id) {
+    Swal.fire({
+      title: "Do you want to delete this user record?",
+      text: "Every information will be deleted from this system related to this user",
+      icon: "question",
+      showCancelButton: true,
+      reverseButtons: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setOpen(true);
+        const { data } = await axios.delete(`/api/user/deleteUser?id=${id}`, {
+          headers: {
+            authorization: `Bearer ${userInfo.token}`,
+          },
+        });
+        setOpen(false);
+        if (data == "Record deleted successfully") {
+          alertOnTaskDone(
+            "Record deleted",
+            "This record has been deleted successfully!",
+            "success",
+            "Ok"
+          );
+        } else {
+          alertOnTaskDone(
+            "Somethings want wrong!",
+            "Please try again later",
+            "error",
+            "Ok"
+          );
+        }
+      }
+    });
+  }
   const changeUpdatePer = (hasUpdatePer, id) => {
     Swal.fire({
       icon: "question",
@@ -106,6 +159,7 @@ export default function ShowUserTable({ data }) {
               <TableCell>Date</TableCell>
               <TableCell>Role</TableCell>
               <TableCell>Permission(Update)</TableCell>
+              <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -132,6 +186,22 @@ export default function ShowUserTable({ data }) {
                   >
                     {user.hasUpdatePer ? "Yes" : "No"}
                   </Button>
+                </TableCell>
+                <TableCell>
+                  <ButtonGroup>
+                    <IconButton onClick={() => deleteRecord(user._id)}>
+                      <DeleteIcon color="error" />
+                    </IconButton>
+                    <IconButton
+                      onClick={() =>
+                        router.push(
+                          `/user/update?id=${user._id}&name=${user.name}&username=${user.username}&email=${user.email}&userType=${user.userType}`
+                        )
+                      }
+                    >
+                      <EditIcon color="secondary" />
+                    </IconButton>
+                  </ButtonGroup>
                 </TableCell>
               </TableRow>
             ))}

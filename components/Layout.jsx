@@ -26,7 +26,7 @@ export default function Layout({ pageTitle, children }) {
               display: { xs: "none", sm: "block", md: "block" },
             }}
           >
-            <Box sx={{ height: "100vh", position: "fixed", overflow: "auto" }}>
+            <Box sx={{ position: "fixed", overflow: "auto" }}>
               <SideMenuOptions />
             </Box>
           </Box>

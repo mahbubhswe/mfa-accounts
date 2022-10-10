@@ -27,7 +27,7 @@ export default function StoreProvider(props) {
   const [balance] = useLocalStorage("balance");
   const initialState = {
     userInfo: userInfo ? userInfo : null,
-    balance: balance ? balance : null,
+    balance: balance ? balance : 0,
   };
   const [state, dispatch] = useReducer(reducer, initialState);
   const value = { state, dispatch };

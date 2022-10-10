@@ -4,6 +4,7 @@ import nextConnect from "next-connect";
 import connectMongo from "../../../utils/connectMongo.js";
 const handler = nextConnect();
 handler.get(async (req, res, next) => {
+  
   try {
     await connectMongo();
     //get student
