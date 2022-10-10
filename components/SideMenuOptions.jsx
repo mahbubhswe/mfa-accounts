@@ -9,7 +9,7 @@ import {
   Divider,
   Badge,
 } from "@mui/material";
-import DashboardIcon from '@mui/icons-material/Dashboard';
+import DashboardIcon from "@mui/icons-material/Dashboard";
 import CircleNotificationsIcon from "@mui/icons-material/CircleNotifications";
 import AtmIcon from "@mui/icons-material/Atm";
 import ListIcon from "@mui/icons-material/List";
@@ -27,7 +27,6 @@ import { useRouter } from "next/router";
 const getRequestCount = (url) => axios.get(url).then((res) => res.data);
 export default function SideMenuOptions() {
   const [userInfo] = useLocalStorage("userInfo");
-  const { userType } = userInfo;
   const router = useRouter();
   const { data, error } = useSWR("/api/getRequestCount", getRequestCount);
 
@@ -36,7 +35,7 @@ export default function SideMenuOptions() {
       <div style={{ height: "80px", display: "grid", placeContent: "center" }}>
         <Avatar src="/img/profile.png" sx={{ height: 60, width: 60 }}></Avatar>
       </div>
-      <Divider>{userInfo.name}</Divider>
+      <Divider>{userInfo ? userInfo.name : null}</Divider>
       <List dense={true}>
         <ListItem disablePadding>
           <ListItemButton onClick={() => router.push("/accounts/payment-list")}>
@@ -73,7 +72,11 @@ export default function SideMenuOptions() {
         <ListItem
           disablePadding
           sx={{
-            display: userType=="admin" ? "block" : "none",
+            display: userInfo
+              ? userInfo.userType == "admin"
+                ? "block"
+                : "none"
+              : null,
           }}
         >
           <ListItemButton
@@ -90,7 +93,11 @@ export default function SideMenuOptions() {
         <ListItem
           disablePadding
           sx={{
-            display: userType=="admin"? "block" : "none",
+            display: userInfo
+              ? userInfo.userType == "admin"
+                ? "block"
+                : "none"
+              : null,
           }}
         >
           <ListItemButton
@@ -121,7 +128,13 @@ export default function SideMenuOptions() {
         </ListItem>
         <ListItem
           disablePadding
-          sx={{ display: userType=="admin" ? "block" : "none" }}
+          sx={{
+            display: userInfo
+              ? userInfo.userType == "admin"
+                ? "block"
+                : "none"
+              : null,
+          }}
         >
           <ListItemButton onClick={() => router.push("/user/add")}>
             <ListItemIcon>
@@ -132,7 +145,13 @@ export default function SideMenuOptions() {
         </ListItem>
         <ListItem
           disablePadding
-          sx={{ display: userType=="admin"  ? "block" : "none" }}
+          sx={{
+            display: userInfo
+              ? userInfo.userType == "admin"
+                ? "block"
+                : "none"
+              : null,
+          }}
         >
           <ListItemButton onClick={() => router.push("/user/list")}>
             <ListItemIcon>
@@ -143,7 +162,13 @@ export default function SideMenuOptions() {
         </ListItem>
         <ListItem
           disablePadding
-          sx={{ display: userType=="admin"  ? "block" : "none" }}
+          sx={{
+            display: userInfo
+              ? userInfo.userType == "admin"
+                ? "block"
+                : "none"
+              : null,
+          }}
         >
           <ListItemButton
             onClick={() => router.push("/accounts/instalment/add")}
@@ -156,7 +181,13 @@ export default function SideMenuOptions() {
         </ListItem>
         <ListItem
           disablePadding
-          sx={{ display: userType=="admin" ? "block" : "none" }}
+          sx={{
+            display: userInfo
+              ? userInfo.userType == "admin"
+                ? "block"
+                : "none"
+              : null,
+          }}
         >
           <ListItemButton
             onClick={() => router.push("/accounts/instalment/manage")}
