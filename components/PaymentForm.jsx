@@ -56,7 +56,7 @@ export default function PaymentForm() {
     } else {
       Swal.fire({
         icon: "error",
-        title: "Oops...",
+        title: "Sorry...",
         text: `You need to pay ${data.amount} tk for ${data.instalment} semester `,
         confirmButtonText: "Ok",
         confirmButtonColor: "#115D56",
@@ -95,19 +95,19 @@ export default function PaymentForm() {
     ) {
       Swal.fire({
         icon: "warning",
-        title: "Oops...",
+        title: "Sorry...",
         text: `Student ID ${studentId} is not exist.Please add before make a payment`,
       });
     } else if (apiRes.data == "Only bank users are allowed to make payment") {
       Swal.fire({
         icon: "warning",
-        title: "Oops...",
+        title: "Sorry...",
         text: apiRes.data,
       });
     } else {
       Swal.fire({
         icon: "error",
-        title: "Oops...",
+        title: "Sorry...",
         text: apiRes.data,
       });
     }
