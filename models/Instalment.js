@@ -3,7 +3,6 @@ const instalmentSchema = new mongoose.Schema({
   instalment: {
     type: String,
     required: true,
-    default: null,
   },
   admissionFee: {
     type: Number,

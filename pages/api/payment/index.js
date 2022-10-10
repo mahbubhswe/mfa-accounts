@@ -1,4 +1,5 @@
 import Payment from "../../../models/Payment.js";
+import Instalment from "../../../models/Instalment.js";
 import Student from "../../../models/Student.js";
 import nextConnect from "next-connect";
 import connectMongo from "../../../utils/connectMongo.js";
@@ -18,9 +19,36 @@ handler.post(async (req, res, next) => {
     } else {
       const exist = await Student.findOne({ studentID: req.body.studentId });
       if (exist) {
-        req.body.detailsId = req.body.studentId;
+        const instalment = await Instalment.findOne(
+          { instalment: req.body.instalment },
+          { instalment: 0, createdAt: 0, __v: 0, _id: 0 }
+        );
+
         const newPayment = new Payment({
-          ...req.body,
+          studentId: req.body.studentId,
+          detailsId: req.body.studentId,
+          instalment: req.body.instalment,
+          admissionFee: instalment.admissionFee,
+          tutionFee: instalment.tutionFee,
+          diningCharge: instalment.diningCharge,
+          hairCutting: instalment.hairCutting,
+          cablerOyaserManCharge: instalment.cablerOyaserManCharge,
+          religiousCharge: instalment.religiousCharge,
+          newspaperMagazineCharge: instalment.newspaperMagazineCharge,
+          establishMaintainCharge: instalment.establishMaintainCharge,
+          supervisionCharge: instalment.supervisionCharge,
+          gameSportCharge: instalment.gameSportCharge,
+          yearlyCeremony: instalment.yearlyCeremony,
+          cadetNightCharge: instalment.cablerOyaserManCharge,
+          classBag: instalment.classBag,
+          educationalTour: instalment.educationalTour,
+          abroadEducationalTours: instalment.abroadEducationalTours,
+          crodhingDabing: instalment.crodhingDabing,
+          meritimeCharge: instalment.meritimeCharge,
+          aboutExam: instalment.aboutExam,
+          passingOut: instalment.passingOut,
+          retuenable: instalment.retuenable,
+          amount: Number(req.body.amount),
         });
         await newPayment.save();
         res.send("Payment Added successfully");
