@@ -70,51 +70,73 @@ export default function FullScreenDialog() {
   const addInstalment = async (e) => {
     e.target.reset();
     setOpen(true);
-    const { data } = await axios.post(
-      `/api/addInstalment`,
-      {
-        instalment: instalment,
-        admissionFee: payment.admissionFee,
-        tutionFee: payment.tutionFee,
-        diningCharge: payment.diningCharge,
-        hairCutting: payment.hairCutting,
-        cablerOyaserManCharge: payment.cablerOyaserManCharge,
-        religiousCharge: payment.religiousCharge,
-        newspaperMagazineCharge: payment.newspaperMagazineCharge,
-        establishMaintainCharge: payment.establishMaintainCharge,
-        supervisionCharge: payment.supervisionCharge,
-        gameSportCharge: payment.gameSportCharge,
-        yearlyCeremony: payment.yearlyCeremony,
-        cadetNightCharge: payment.cadetNightCharge,
-        classBag: payment.classBag,
-        educationalTour: payment.educationalTour,
-        crodhingDabing: payment.crodhingDabing,
-        meritimeCharge: payment.meritimeCharge,
-        aboutExam: payment.aboutExam,
-        passingOut: payment.passingOut,
-        retuenable: payment.retuenable,
-        amount: totalAmount,
-      },
-      {
+
+    const instalmentObj = {
+      instalment: instalment,
+      admissionFee: payment.admissionFee,
+      tutionFee: payment.tutionFee,
+      diningCharge: payment.diningCharge,
+      hairCutting: payment.hairCutting,
+      cablerOyaserManCharge: payment.cablerOyaserManCharge,
+      religiousCharge: payment.religiousCharge,
+      newspaperMagazineCharge: payment.newspaperMagazineCharge,
+      establishMaintainCharge: payment.establishMaintainCharge,
+      supervisionCharge: payment.supervisionCharge,
+      gameSportCharge: payment.gameSportCharge,
+      yearlyCeremony: payment.yearlyCeremony,
+      cadetNightCharge: payment.cadetNightCharge,
+      classBag: payment.classBag,
+      educationalTour: payment.educationalTour,
+      crodhingDabing: payment.crodhingDabing,
+      meritimeCharge: payment.meritimeCharge,
+      aboutExam: payment.aboutExam,
+      passingOut: payment.passingOut,
+      retuenable: payment.retuenable,
+      amount: totalAmount,
+    };
+
+    let check =
+      payment.admissionFee +
+      payment.tutionFee +
+      payment.diningCharge +
+      payment.cablerOyaserManCharge +
+      payment.religiousCharge +
+      payment.newspaperMagazineCharge +
+      payment.establishMaintainCharge +
+      payment.supervisionCharge +
+      payment.gameSportCharge +
+      payment.yearlyCeremony +
+      payment.cadetNightCharge +
+      payment.classBag +
+      payment.educationalTour +
+      payment.crodhingDabing +
+      payment.meritimeCharge +
+      payment.aboutExam +
+      payment.passingOut +
+      payment.retuenable;
+    if (check === totalAmount) {
+      const { data } = await axios.post(`/api/addInstalment`, instalmentObj, {
         headers: {
           authorization: `Barear ${userInfo.token}`,
         },
+      });
+      setOpen(false);
+      if (data == "Instalment added successfully!") {
+        alertOnTaskDone("Success", data, "success", "Ok");
+      } else if (data == "Already added instalment") {
+        alertOnTaskDone(
+          "Already added",
+          `You have already added instalment for ${instalment} semester`,
+          "warning",
+          "Ok"
+        );
+      } else {
+        alertOnTaskDone("Failed! to add instalment", data, "error", "Ok");
       }
-    );
-    setOpen(false);
-    if (data == "Instalment added successfully!") {
-      alertOnTaskDone("Success", data, "success", "Ok");
-    } else if (data == "Already added instalment") {
-      alertOnTaskDone(
-        "Already added",
-        `You have already added instalment for ${instalment} semester`,
-        "warning",
-        "Ok"
-      );
     } else {
       alertOnTaskDone(
-        "Failed! to add instalment",
-        "Somethings want wrong",
+        "Failed to add instalment",
+        "Something went wrong in your system. Please try agin later.",
         "error",
         "Ok"
       );
@@ -171,7 +193,6 @@ export default function FullScreenDialog() {
             type="number"
             placeholder="Admission Fee"
             size="small"
-         
             color="secondary"
             fullWidth
             onChange={(e) =>
@@ -187,7 +208,6 @@ export default function FullScreenDialog() {
             placeholder="Tution Fee"
             size="small"
             fullWidth
-        
             color="secondary"
             onChange={(e) =>
               setpayment({ ...payment, tutionFee: Number(e.target.value) })
@@ -198,7 +218,6 @@ export default function FullScreenDialog() {
             type="number"
             placeholder="Dining Charge"
             size="small"
-       
             fullWidth
             color="secondary"
             onChange={(e) =>
@@ -215,7 +234,6 @@ export default function FullScreenDialog() {
             type="number"
             placeholder="Hair Cutting"
             size="small"
-           
             fullWidth
             color="secondary"
             onChange={(e) =>
@@ -231,7 +249,6 @@ export default function FullScreenDialog() {
             type="number"
             placeholder="Cabler and Oyaser Man Charge"
             size="small"
-         
             fullWidth
             color="secondary"
             onChange={(e) =>
@@ -246,7 +263,6 @@ export default function FullScreenDialog() {
             type="number"
             placeholder="Religious Charge"
             size="small"
-         
             fullWidth
             color="secondary"
             onChange={(e) =>
@@ -263,7 +279,6 @@ export default function FullScreenDialog() {
             type="number"
             placeholder="Newspaper and Magazine Charge"
             size="small"
-          
             fullWidth
             color="secondary"
             onChange={(e) =>
@@ -278,7 +293,6 @@ export default function FullScreenDialog() {
             type="number"
             placeholder="Establish and Maintain Charge"
             size="small"
-       
             fullWidth
             color="secondary"
             onChange={(e) =>
@@ -293,7 +307,6 @@ export default function FullScreenDialog() {
             type="number"
             placeholder="Supervision Charge"
             size="small"
-         
             fullWidth
             color="secondary"
             onChange={(e) =>
@@ -310,7 +323,6 @@ export default function FullScreenDialog() {
             type="number"
             placeholder="Games and Sports Charge"
             size="small"
-          
             fullWidth
             color="secondary"
             onChange={(e) =>
@@ -325,7 +337,6 @@ export default function FullScreenDialog() {
             type="number"
             placeholder="Yearly Ceremony Charge"
             size="small"
-        
             fullWidth
             color="secondary"
             onChange={(e) =>
@@ -340,7 +351,6 @@ export default function FullScreenDialog() {
             type="number"
             placeholder="Cadet Night Charge"
             size="small"
-        
             fullWidth
             color="secondary"
             onChange={(e) =>
@@ -357,7 +367,6 @@ export default function FullScreenDialog() {
             type="number"
             placeholder="Class Bag"
             size="small"
-          
             fullWidth
             color="secondary"
             onChange={(e) =>
@@ -369,7 +378,6 @@ export default function FullScreenDialog() {
             type="number"
             placeholder="Educational Tour"
             size="small"
-      
             fullWidth
             color="secondary"
             onChange={(e) =>
@@ -384,7 +392,6 @@ export default function FullScreenDialog() {
             type="number"
             placeholder="Abroad Educational Tour"
             size="small"
-     
             fullWidth
             color="secondary"
             onChange={(e) =>
@@ -401,7 +408,6 @@ export default function FullScreenDialog() {
             type="number"
             placeholder="Crodhing Dabing Charge"
             size="small"
-         
             fullWidth
             color="secondary"
             onChange={(e) =>
@@ -416,7 +422,6 @@ export default function FullScreenDialog() {
             type="number"
             placeholder="Maritime Fee"
             size="small"
-        
             fullWidth
             color="secondary"
             onChange={(e) =>
@@ -431,7 +436,6 @@ export default function FullScreenDialog() {
             type="number"
             placeholder="Exam Fee"
             size="small"
-        
             fullWidth
             color="secondary"
             onChange={(e) =>
@@ -445,7 +449,6 @@ export default function FullScreenDialog() {
             type="number"
             placeholder="Passing Out Fee"
             size="small"
-           
             fullWidth
             color="secondary"
             onChange={(e) =>
@@ -457,7 +460,6 @@ export default function FullScreenDialog() {
             type="number"
             placeholder="Kashanmani(Retuenable)"
             size="small"
-       
             fullWidth
             color="secondary"
             onChange={(e) =>

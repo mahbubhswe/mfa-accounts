@@ -8,6 +8,7 @@ const handler = nextConnect();
 handler.use(isAuth);
 handler.use(isBankUser);
 handler.post(async (req, res, next) => {
+  
   try {
     await connectMongo();
     const check = await Payment.findOne({
@@ -19,39 +20,43 @@ handler.post(async (req, res, next) => {
     } else {
       const exist = await Student.findOne({ studentID: req.body.studentId });
       if (exist) {
-        const instalment = await Instalment.findOne(
+        const getInstalmentInfo = await Instalment.findOne(
           { instalment: req.body.instalment },
-          { instalment: 0, createdAt: 0, __v: 0, _id: 0 }
+          { createdAt: 0, __v: 0, _id: 0 }
         );
-
-        const newPayment = new Payment({
-          studentId: req.body.studentId,
-          detailsId: req.body.studentId,
-          instalment: req.body.instalment,
-          admissionFee: instalment.admissionFee,
-          tutionFee: instalment.tutionFee,
-          diningCharge: instalment.diningCharge,
-          hairCutting: instalment.hairCutting,
-          cablerOyaserManCharge: instalment.cablerOyaserManCharge,
-          religiousCharge: instalment.religiousCharge,
-          newspaperMagazineCharge: instalment.newspaperMagazineCharge,
-          establishMaintainCharge: instalment.establishMaintainCharge,
-          supervisionCharge: instalment.supervisionCharge,
-          gameSportCharge: instalment.gameSportCharge,
-          yearlyCeremony: instalment.yearlyCeremony,
-          cadetNightCharge: instalment.cablerOyaserManCharge,
-          classBag: instalment.classBag,
-          educationalTour: instalment.educationalTour,
-          abroadEducationalTours: instalment.abroadEducationalTours,
-          crodhingDabing: instalment.crodhingDabing,
-          meritimeCharge: instalment.meritimeCharge,
-          aboutExam: instalment.aboutExam,
-          passingOut: instalment.passingOut,
-          retuenable: instalment.retuenable,
-          amount: Number(req.body.amount),
-        });
-        await newPayment.save();
-        res.send("Payment Added successfully");
+       
+        if (getInstalmentInfo.amount == req.body.amount) {
+          const newPayment = new Payment({
+            studentId: req.body.studentId,
+            detailsId: req.body.studentId,
+            instalment: req.body.instalment,
+            admissionFee: getInstalmentInfo.admissionFee,
+            tutionFee: getInstalmentInfo.tutionFee,
+            diningCharge: getInstalmentInfo.diningCharge,
+            hairCutting: getInstalmentInfo.hairCutting,
+            cablerOyaserManCharge: getInstalmentInfo.cablerOyaserManCharge,
+            religiousCharge: getInstalmentInfo.religiousCharge,
+            newspaperMagazineCharge: getInstalmentInfo.newspaperMagazineCharge,
+            establishMaintainCharge: getInstalmentInfo.establishMaintainCharge,
+            supervisionCharge: getInstalmentInfo.supervisionCharge,
+            gameSportCharge: getInstalmentInfo.gameSportCharge,
+            yearlyCeremony: getInstalmentInfo.yearlyCeremony,
+            cadetNightCharge: getInstalmentInfo.cadetNightCharge,
+            classBag: getInstalmentInfo.classBag,
+            educationalTour: getInstalmentInfo.educationalTour,
+            abroadEducationalTours: getInstalmentInfo.abroadEducationalTours,
+            crodhingDabing: getInstalmentInfo.crodhingDabing,
+            meritimeCharge: getInstalmentInfo.meritimeCharge,
+            aboutExam: getInstalmentInfo.aboutExam,
+            passingOut: getInstalmentInfo.passingOut,
+            retuenable: getInstalmentInfo.retuenable,
+            amount: Number(req.body.amount),
+          });
+          await newPayment.save();
+          res.send("Payment Added successfully");
+        } else {
+          res.send(`You need to pay ${getInstalmentInfo.amount} tk for ${getInstalmentInfo.instalment} semester `);
+        }
       } else {
         res.send(`Student ID not exist.Please add before make a payment`);
       }

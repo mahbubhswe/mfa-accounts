@@ -43,10 +43,25 @@ export default function UpdateInstalmentForm({ data, setOpenUpdate }) {
     amount: data.amount,
   });
 
-  const values = Object.values(updateInstalment);
-  const totalAmount = values.reduce((accumulator, value) => {
-    return accumulator + value;
-  }, 0);
+  let totalAmount =
+    updateInstalment.admissionFee +
+    updateInstalment.tutionFee +
+    updateInstalment.diningCharge +
+    updateInstalment.cablerOyaserManCharge +
+    updateInstalment.religiousCharge +
+    updateInstalment.newspaperMagazineCharge +
+    updateInstalment.establishMaintainCharge +
+    updateInstalment.supervisionCharge +
+    updateInstalment.gameSportCharge +
+    updateInstalment.yearlyCeremony +
+    updateInstalment.cadetNightCharge +
+    updateInstalment.classBag +
+    updateInstalment.educationalTour +
+    updateInstalment.crodhingDabing +
+    updateInstalment.meritimeCharge +
+    updateInstalment.aboutExam +
+    updateInstalment.passingOut +
+    updateInstalment.retuenable;
 
   //ask for make sure
   const askForSubmit = (e) => {
@@ -129,7 +144,7 @@ export default function UpdateInstalmentForm({ data, setOpenUpdate }) {
   }
 
   return (
-    <Container sx={{marginTop:"20px"}}>
+    <Container sx={{ marginTop: "20px" }}>
       <Paper style={{ padding: "25px" }}>
         <Typography
           variant="bold"

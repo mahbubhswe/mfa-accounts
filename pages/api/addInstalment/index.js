@@ -18,7 +18,6 @@ handler.post(async (req, res, next) => {
         ...req.body,
       });
       await newInstalment.save();
-
       res.send("Instalment added successfully!");
     }
   } catch (error) {
