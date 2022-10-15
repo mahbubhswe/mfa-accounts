@@ -77,7 +77,7 @@ handler.get(async (req, res, next) => {
             Status: instalment4 ? "Completed" : "Not Completed",
             Amount: instalment4 ? instalment1.amount : null,
             dateOfPayment: instalment4
-              ? moment(instalment1.createdAt).format("MM Do YY")
+              ? moment(instalment1.createdAt).format("DD-MM-YY")
               : null,
           },
         },
