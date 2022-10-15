@@ -1,7 +1,6 @@
 import Student from "../../../models/Student.js";
 import Payment from "../../../models/Payment.js";
 import nextConnect from "next-connect";
-import moment from "moment";
 import connectMongo from "../../../utils/connectMongo.js";
 const handler = nextConnect();
 handler.get(async (req, res, next) => {
@@ -45,7 +44,21 @@ handler.get(async (req, res, next) => {
         },
         { instalment: 1, amount: 1, createdAt: 1, _id: 0 }
       );
-
+      //date formate
+      function formateDate(x) {
+        let date = new Date(x);
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let dt = date.getDate();
+    
+        if (dt < 10) {
+          dt = "0" + dt;
+        }
+        if (month < 10) {
+          month = "0" + month;
+        }
+        return `${year}-${month}-${dt}`;
+      }
       const studentDetails = {
         studentID: studentInfo.studentID,
         name: studentInfo.name,
@@ -56,28 +69,28 @@ handler.get(async (req, res, next) => {
             Status: instalment1 ? "Completed" : "Not Completed",
             Amount: instalment1 ? instalment1.amount : null,
             dateOfPayment: instalment1
-              ? moment(instalment1.createdAt).format("YY-MM-DD")
+              ? formateDate(instalment1.createdAt)
               : null,
           },
           "2nd_instalment": {
             Status: instalment2 ? "Completed" : "Not Completed",
             Amount: instalment2 ? instalment1.amount : null,
             dateOfPayment: instalment2
-              ? moment(instalment1.createdAt).format("YY-MM-DD")
+              ? formateDate(instalment1.createdAt)
               : null,
           },
           "3rd_instalment": {
             Status: instalment3 ? "Completed" : "Not Completed",
             Amount: instalment3 ? instalment1.amount : null,
             dateOfPayment: instalment3
-              ? moment(instalment1.createdAt).format("YY-MM-DD")
+              ? formateDate(instalment1.createdAt)
               : null,
           },
           "4th_instalment": {
             Status: instalment4 ? "Completed" : "Not Completed",
             Amount: instalment4 ? instalment1.amount : null,
             dateOfPayment: instalment4
-              ? moment(instalment1.createdAt).format("YY-MM-DD")
+              ? formateDate(instalment1.createdAt)
               : null,
           },
         },
