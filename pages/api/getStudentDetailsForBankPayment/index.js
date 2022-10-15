@@ -56,28 +56,28 @@ handler.get(async (req, res, next) => {
             Status: instalment1 ? "Completed" : "Not Completed",
             Amount: instalment1 ? instalment1.amount : null,
             dateOfPayment: instalment1
-              ? moment(instalment1.createdAt).format("MM Do YY")
+              ? moment(instalment1.createdAt).format("YY-MM-DD")
               : null,
           },
           "2nd_instalment": {
             Status: instalment2 ? "Completed" : "Not Completed",
             Amount: instalment2 ? instalment1.amount : null,
             dateOfPayment: instalment2
-              ? moment(instalment1.createdAt).format("MM Do YY")
+              ? moment(instalment1.createdAt).format("YY-MM-DD")
               : null,
           },
           "3rd_instalment": {
             Status: instalment3 ? "Completed" : "Not Completed",
             Amount: instalment3 ? instalment1.amount : null,
             dateOfPayment: instalment3
-              ? moment(instalment1.createdAt).format("MM Do YY")
+              ? moment(instalment1.createdAt).format("YY-MM-DD")
               : null,
           },
           "4th_instalment": {
             Status: instalment4 ? "Completed" : "Not Completed",
             Amount: instalment4 ? instalment1.amount : null,
             dateOfPayment: instalment4
-              ? moment(instalment1.createdAt).format("DD-MM-YY")
+              ? moment(instalment1.createdAt).format("YY-MM-DD")
               : null,
           },
         },
