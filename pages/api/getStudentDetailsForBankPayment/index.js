@@ -50,7 +50,7 @@ handler.get(async (req, res, next) => {
         let year = date.getFullYear();
         let month = date.getMonth() + 1;
         let dt = date.getDate();
-    
+
         if (dt < 10) {
           dt = "0" + dt;
         }
@@ -67,30 +67,46 @@ handler.get(async (req, res, next) => {
         paymentInfo: {
           "1st_instalment": {
             Status: instalment1 ? "Completed" : "Not Completed",
-            Amount: instalment1 ? instalment1.amount : null,
+            Amount: instalment1
+              ? instalment1.amount
+                ? instalment1.amount
+                : null
+              : null,
             dateOfPayment: instalment1
               ? formateDate(instalment1.createdAt)
               : null,
           },
           "2nd_instalment": {
             Status: instalment2 ? "Completed" : "Not Completed",
-            Amount: instalment2 ? instalment1.amount : null,
+            Amount: instalment2
+              ? instalment2.amount
+                ? instalment2.amount
+                : null
+              : null,
             dateOfPayment: instalment2
-              ? formateDate(instalment1.createdAt)
+              ? formateDate(instalment2.createdAt)
               : null,
           },
           "3rd_instalment": {
             Status: instalment3 ? "Completed" : "Not Completed",
-            Amount: instalment3 ? instalment1.amount : null,
+            Amount: instalment3
+              ? instalment3.amount
+                ? instalment3.amount
+                : null
+              : null,
             dateOfPayment: instalment3
-              ? formateDate(instalment1.createdAt)
+              ? formateDate(instalment3.createdAt)
               : null,
           },
           "4th_instalment": {
             Status: instalment4 ? "Completed" : "Not Completed",
-            Amount: instalment4 ? instalment1.amount : null,
+            Amount: instalment4
+              ? instalment4.amount
+                ? instalment4.amount
+                : null
+              : null,
             dateOfPayment: instalment4
-              ? formateDate(instalment1.createdAt)
+              ? formateDate(instalment4.createdAt)
               : null,
           },
         },
