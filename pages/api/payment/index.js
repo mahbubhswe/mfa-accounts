@@ -8,7 +8,6 @@ const handler = nextConnect();
 handler.use(isAuth);
 handler.use(isBankUser);
 handler.post(async (req, res, next) => {
-  
   try {
     await connectMongo();
     const check = await Payment.findOne({
@@ -24,12 +23,12 @@ handler.post(async (req, res, next) => {
           { instalment: req.body.instalment },
           { createdAt: 0, __v: 0, _id: 0 }
         );
-       
-        if (getInstalmentInfo.amount == req.body.amount) {
+
+        if (getInstalmentInfo.amount === req.body.amount) {
           const newPayment = new Payment({
             studentId: req.body.studentId,
             detailsId: req.body.studentId,
-            instalment: req.body.instalment,
+            instalment: getInstalmentInfo.instalment,
             admissionFee: getInstalmentInfo.admissionFee,
             tutionFee: getInstalmentInfo.tutionFee,
             diningCharge: getInstalmentInfo.diningCharge,
@@ -50,12 +49,14 @@ handler.post(async (req, res, next) => {
             aboutExam: getInstalmentInfo.aboutExam,
             passingOut: getInstalmentInfo.passingOut,
             retuenable: getInstalmentInfo.retuenable,
-            amount: Number(req.body.amount),
+            amount: Number(getInstalmentInfo.amount),
           });
           await newPayment.save();
           res.send("Payment Added successfully");
         } else {
-          res.send(`You need to pay ${getInstalmentInfo.amount} tk for ${getInstalmentInfo.instalment} semester `);
+          res.send(
+            `You need to pay ${getInstalmentInfo.amount} tk for ${getInstalmentInfo.instalment} semester `
+          );
         }
       } else {
         res.send(`Student ID not exist.Please add before make a payment`);
