@@ -1,11 +1,28 @@
 import Student from "../../../models/Student.js";
 import Payment from "../../../models/Payment.js";
+import Instalment from "../../../models/Instalment.js";
 import nextConnect from "next-connect";
 import connectMongo from "../../../utils/connectMongo.js";
 const handler = nextConnect();
 handler.get(async (req, res, next) => {
   try {
     await connectMongo();
+    const firstInstalment = await Instalment.findOne(
+      { instalment: "1st" },
+      { amount: true, _id: false }
+    );
+    const secondInstalment = await Instalment.findOne(
+      { instalment: "2nd" },
+      { amount: true, _id: false }
+    );
+    const thirdInstalment = await Instalment.findOne(
+      { instalment: "3rd" },
+      { amount: true, _id: false }
+    );
+    const fourthInstalment = await Instalment.findOne(
+      { instalment: "4th" },
+      { amount: true, _id: false }
+    );
     //get student
     const studentInfo = await Student.findOne(
       {
@@ -70,8 +87,8 @@ handler.get(async (req, res, next) => {
             Amount: instalment1
               ? instalment1.amount
                 ? instalment1.amount
-                : null
-              : null,
+                : firstInstalment.amount
+              : firstInstalment.amount,
             dateOfPayment: instalment1
               ? formateDate(instalment1.createdAt)
               : null,
@@ -81,8 +98,8 @@ handler.get(async (req, res, next) => {
             Amount: instalment2
               ? instalment2.amount
                 ? instalment2.amount
-                : null
-              : null,
+                : secondInstalment.amount
+              : secondInstalment.amount,
             dateOfPayment: instalment2
               ? formateDate(instalment2.createdAt)
               : null,
@@ -92,8 +109,8 @@ handler.get(async (req, res, next) => {
             Amount: instalment3
               ? instalment3.amount
                 ? instalment3.amount
-                : null
-              : null,
+                : thirdInstalment.amount
+              : thirdInstalment.amount,
             dateOfPayment: instalment3
               ? formateDate(instalment3.createdAt)
               : null,
@@ -103,8 +120,8 @@ handler.get(async (req, res, next) => {
             Amount: instalment4
               ? instalment4.amount
                 ? instalment4.amount
-                : null
-              : null,
+                : fourthInstalment.amount
+              : fourthInstalment.amount,
             dateOfPayment: instalment4
               ? formateDate(instalment4.createdAt)
               : null,
